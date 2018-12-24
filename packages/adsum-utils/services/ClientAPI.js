@@ -208,6 +208,20 @@ class ClientAPI {
         return media;
     }
 
+    getMediaByTag(tagName: string) {
+        const tag = this.getTagBy({ name: tagName });
+
+        if (tag.length) {
+            const media = this.entityManager.getRepository('Media').findOneBy({
+                tags: tags => tags.has(tag[0])
+            });
+
+            return this.getMediaFile(media) || null;
+        }
+
+        return null;
+    }
+
     getAllCategories(): Array<Object> {
         if (this._allCategories === null) {
             const categories = this.entityManager.getRepository('Category').getAll();
