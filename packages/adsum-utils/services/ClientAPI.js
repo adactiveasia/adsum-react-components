@@ -202,7 +202,7 @@ class ClientAPI {
     }
 
     getMediaFile(media) {
-        if (media.file && media.file.value) {
+        if (media && media.file && media.file.value) {
             media.file = this.getFile(media.file.value);
         }
         return media;
