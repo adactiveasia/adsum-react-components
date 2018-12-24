@@ -202,10 +202,24 @@ class ClientAPI {
     }
 
     getMediaFile(media) {
-        if (media.file && media.file.value) {
+        if (media && media.file && media.file.value) {
             media.file = this.getFile(media.file.value);
         }
         return media;
+    }
+
+    getMediaByTag(tagName: string) {
+        const tag = this.getTagBy({ name: tagName });
+
+        if (tag.length) {
+            const media = this.entityManager.getRepository('Media').findOneBy({
+                tags: tags => tags.has(tag[0])
+            });
+
+            return this.getMediaFile(media) || null;
+        }
+
+        return null;
     }
 
     getAllCategories(): Array<Object> {
