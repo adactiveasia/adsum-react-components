@@ -73,7 +73,7 @@ static defaultProps = {
 
 **text** -> Url value to be embedded into qrcode
 
-**qrCodeOptions** -> Refer to [qrcode.es](https://github.com/AdactiveSAS/qrcode.js) for more information
+**qrCodeOptions** -> Refer to [qrcode.es](https://github.com/adactiveasia/qrcode.js) for more information
 
 **ModalProps** -> Refer to [react-responsive-modal](https://github.com/pradel/react-responsive-modal) for more information
 

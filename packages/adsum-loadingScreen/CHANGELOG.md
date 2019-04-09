@@ -9,4 +9,4 @@
 to benefit from the default Adsum logo.
 
 # v2.1.0
-Initial release of [Adsum Loading Screen component](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-loadingScreen).
+Initial release of [Adsum Loading Screen component](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-loadingScreen).

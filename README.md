@@ -18,18 +18,18 @@ This is a mono-repo has been create to share and collaborate on components for i
 
 ## What's inside ?
 
- - [adsum-map](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-map)
- - [adsum-steplist](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-steplist)
- - [adsum-loadingScreen](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-loadingScreen)
- - [adsum-az-scroller](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-az-scroller)
- - [adsum-carousel](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-carousel)
- - [adsum-clock](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-clock)
- - [adsum-itemCarousel](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-itemCarousel)
- - [adsum-keyboard](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-keyboard)
- - [adsum-screensaver](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-screensaver)
- - [adsum-search](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-search)
- - [adsum-utils](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-utils)
- - [adsum-qrCode](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-qrCode)
+ - [adsum-map](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-map)
+ - [adsum-steplist](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-steplist)
+ - [adsum-loadingScreen](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-loadingScreen)
+ - [adsum-az-scroller](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-az-scroller)
+ - [adsum-carousel](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-carousel)
+ - [adsum-clock](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-clock)
+ - [adsum-itemCarousel](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-itemCarousel)
+ - [adsum-keyboard](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-keyboard)
+ - [adsum-screensaver](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-screensaver)
+ - [adsum-search](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-search)
+ - [adsum-utils](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-utils)
+ - [adsum-qrCode](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-qrCode)
 
 ## Stack
 
@@ -86,10 +86,10 @@ This is a mono-repo has been create to share and collaborate on components for i
       "readmeFilename": "README.md",
       "repository": {
         "type": "git",
-        "url": "git://github.com/AdactiveSAS/adsum-react-components.git"
+        "url": "git://github.com/adactiveasia/adsum-react-components.git"
       },
       "bugs": {
-        "url": "https://github.com/AdactiveSAS/adsum-react-components.git/issues"
+        "url": "https://github.com/adactiveasia/adsum-react-components.git/issues"
       },
       "scripts": {},
       "publishConfig": {
