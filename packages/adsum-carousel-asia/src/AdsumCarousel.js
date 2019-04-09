@@ -67,19 +67,14 @@ class AdsumCarousel extends React.Component<PropsType> {
     }
 
     componentDidMount() {
-        const { setTimeoutSlide } = this.state;
-
         if (this._videoPlayers[0]) {
-            if(setTimeoutSlide!==null) {clearTimeout(setTimeoutSlide)};
+            this.checkTimeOut();
 
             this._videoPlayers[0].play();
-            if(autoSlide){
-                const firstVideoProp = this._videoPlayers[0].video.getProperties();
-                const firstconvertedVideoDuration = (parseInt(firstVideoProp.duration) + 1)*1000;
-                this.setState({
-                    setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(1); }, firstconvertedVideoDuration),
-                })
-            }
+            const firstVideoProp = this._videoPlayers[0].video.getProperties();
+            const firstconvertedVideoDuration = (parseInt(firstVideoProp.duration) + 1)*1000;
+
+            this.makeItLoop(0, firstconvertedVideoDuration);
         }
     }
 
@@ -91,50 +86,49 @@ class AdsumCarousel extends React.Component<PropsType> {
         this._videoPlayers[id] = videoPlayer;
     }
 
+    makeItLoop = (id, someInterval) => {
+        const { autoSlide } = this.props;
+
+        if(autoSlide){
+            if(id === (this.carousel.state.slideCount-1)){
+                this.setState({
+                    setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(0); }, someInterval),
+                })
+            } else {
+                this.setState({
+                    setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(id+1); }, someInterval),
+                })
+            }
+        }
+    }
+
+    checkTimeOut = () => {
+        const { setTimeoutSlide } = this.state;
+
+        if(setTimeoutSlide!==null) {clearTimeout(setTimeoutSlide)};
+    }
+
     /**
      * To play video immediately if the media is a video on slide change
      * @param id
      */
     slideDidChange(id: number | string) {
-        const { isOpen, autoSlide, autoSlideInterval } = this.props;
-        const { setTimeoutSlide } = this.state;
+        const { isOpen, autoSlideInterval } = this.props;
 
         if (!isOpen) return;
 
         if (this._videoPlayers[id]) {
-            if(setTimeoutSlide!==null) {clearTimeout(setTimeoutSlide)};
+            this.checkTimeOut();
 
             const videoProp = this._videoPlayers[id].video.getProperties();
             const convertedVideoDuration = (parseInt(videoProp.duration) + 1)*1000;
             this._videoPlayers[id].play();
 
-            if(autoSlide){
-                if(id === (this.carousel.state.slideCount-1)){
-                    this.setState({
-                        setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(0); }, convertedVideoDuration),
-                    })
-                } else {
-                    this.setState({
-                        setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(id+1); }, convertedVideoDuration),
-                    })
-                }
-            }
+            this.makeItLoop(id, convertedVideoDuration);
 
         } else {
-            if(autoSlide){
-                if(setTimeoutSlide!==null) {clearTimeout(setTimeoutSlide)};
-    
-                if(id === (this.carousel.state.slideCount-1)){
-                    this.setState({
-                        setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(0); }, autoSlideInterval),
-                    })
-                    
-                } else {
-                    this.setState({
-                        setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(id+1); }, autoSlideInterval),
-                    })
-                }
-            }
+            this.checkTimeOut();
+            this.makeItLoop(id, autoSlideInterval);
         }
     }
 
