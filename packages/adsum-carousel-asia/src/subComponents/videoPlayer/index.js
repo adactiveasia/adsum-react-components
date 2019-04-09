@@ -78,7 +78,7 @@ class VideoPlayer extends React.Component<PropsType> {
                     this._player = player;
                 }}
                 fluid
-                autoPlay 
+                autoPlay
                 muted
             >
                 <source src={sources[0].src} />

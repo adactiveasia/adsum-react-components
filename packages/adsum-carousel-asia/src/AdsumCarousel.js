@@ -63,7 +63,6 @@ class AdsumCarousel extends React.Component<PropsType> {
         this.state = {
             setTimeoutSlide: null,
         };
-
     }
 
     componentDidMount() {
@@ -72,7 +71,8 @@ class AdsumCarousel extends React.Component<PropsType> {
 
             this._videoPlayers[0].play();
             const firstVideoProp = this._videoPlayers[0].video.getProperties();
-            const firstconvertedVideoDuration = (parseInt(firstVideoProp.duration) + 1)*1000;
+            // eslint-disable-next-line radix
+            const firstconvertedVideoDuration = (parseInt(firstVideoProp.duration) + 1) * 1000;
 
             this.makeItLoop(0, firstconvertedVideoDuration);
         }
@@ -89,15 +89,15 @@ class AdsumCarousel extends React.Component<PropsType> {
     makeItLoop = (id, someInterval) => {
         const { autoSlide } = this.props;
 
-        if(autoSlide){
-            if(id === (this.carousel.state.slideCount-1)){
+        if (autoSlide) {
+            if (id === (this.carousel.state.slideCount - 1)) {
                 this.setState({
                     setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(0); }, someInterval),
-                })
+                });
             } else {
                 this.setState({
-                    setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(id+1); }, someInterval),
-                })
+                    setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(id + 1); }, someInterval),
+                });
             }
         }
     }
@@ -105,7 +105,7 @@ class AdsumCarousel extends React.Component<PropsType> {
     checkTimeOut = () => {
         const { setTimeoutSlide } = this.state;
 
-        if(setTimeoutSlide!==null) {clearTimeout(setTimeoutSlide)};
+        if (setTimeoutSlide !== null) { clearTimeout(setTimeoutSlide); }
     }
 
     /**
@@ -121,11 +121,11 @@ class AdsumCarousel extends React.Component<PropsType> {
             this.checkTimeOut();
 
             const videoProp = this._videoPlayers[id].video.getProperties();
-            const convertedVideoDuration = (parseInt(videoProp.duration) + 1)*1000;
+            // eslint-disable-next-line radix
+            const convertedVideoDuration = (parseInt(videoProp.duration) + 1) * 1000;
             this._videoPlayers[id].play();
 
             this.makeItLoop(id, convertedVideoDuration);
-
         } else {
             this.checkTimeOut();
             this.makeItLoop(id, autoSlideInterval);
