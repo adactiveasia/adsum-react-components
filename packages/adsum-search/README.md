@@ -96,7 +96,7 @@ const fuseOptions = {
 ```
 
 ## Additional Information
-- AdsumSearch component should be used together with [AdsumKeyboard component](https://github.com/AdactiveSAS/adsum-react-components/tree/master/packages/adsum-keyboard) to perform search.
+- AdsumSearch component should be used together with [AdsumKeyboard component](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-keyboard) to perform search.
 
 
 ## Copy component inside your project src folder  

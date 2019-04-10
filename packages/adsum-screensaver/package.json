@@ -22,10 +22,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/AdactiveSAS/adsum-react-components.git"
+    "url": "git://github.com/adactiveasia/adsum-react-components.git"
   },
   "bugs": {
-    "url": "https://github.com/AdactiveSAS/adsum-react-components.git/issues"
+    "url": "https://github.com/adactiveasia/adsum-react-components.git/issues"
   },
   "scripts": {},
   "publishConfig": {
