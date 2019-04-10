@@ -42,7 +42,6 @@ static defaultProps = {
     carouselOptions: {
         dragging: false,
         swiping: false,
-        autoplayInterval: 10000,
         speed: 1000,
         renderCenterLeftControls: null,
         renderCenterRightControls: null,
@@ -54,9 +53,11 @@ static defaultProps = {
         slidesToScroll: 1,
         adaptiveHeight: true,
         wrapAround: true,
-        autoSlide: false,
-        autoSlideInterval: 10000,
-    }
+    },
+    style: {},
+    ButtonModalForImage: null,
+    autoSlide: false,
+    autoSlideInterval: 10000,
 };
 ```
 

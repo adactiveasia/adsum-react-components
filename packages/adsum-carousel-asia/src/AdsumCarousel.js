@@ -45,7 +45,6 @@ class AdsumCarousel extends React.Component<PropsType> {
             adaptiveHeight: true,
             wrapAround: true,
         },
-        dynamicAutoPlayInterval: false,
         style: {},
         ButtonModalForImage: null,
         autoSlide: false,

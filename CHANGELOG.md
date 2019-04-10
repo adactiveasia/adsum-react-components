@@ -1,6 +1,6 @@
 # v2.2.0
 ### Add
-- Add [Step List component](https://github.com//adsum-react-components/tree/master/packages/adsum-steplist).
+- Add [Step List component](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-steplist).
 
 ### Fix
 - Minor fixes in Loading Screen component: see [Loading Screen Changelog](https://github.com/adactiveasia/adsum-react-components/tree/master/packages/adsum-loadingScreen/CHANGELOG.md) for details.
