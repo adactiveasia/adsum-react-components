@@ -4,6 +4,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ModalActions } from '..';
 
+import './Modal.css';
+
 /**
  * Modal widget, display a carousel of medias (images or videos) or "Touch to Navigate" message
  * @memberof module:Modal
@@ -35,6 +37,8 @@ type StateType = {||}
 class Modal extends React.Component<PropsType, StateType> {
     static defaultProps = {
         backButton: false,
+        modalWidth: "100%",
+        modalHeight: "100%"
     }
 
     state = {
@@ -70,25 +74,25 @@ class Modal extends React.Component<PropsType, StateType> {
                 modalHeight,
                 children } = this.props;
 
-        console.log(backImage, closeImage, modalWidth, modalHeight);
         return(
             <div 
                 className="modalContainer" 
                 style={{
-                        width: modalWidth? modalWidth : "100%",
-                        height: modalHeight? modalHeight: "100%"
+                        width: modalWidth,
+                        height: modalHeight,
+                        backgroundColor: "green"
                         }}>
                     <div className="modalController">
                         <div className="backButton">
-                            {/* <img src={backImage? backImage : null} /> */}
-                            LEFT
+                            <img src={backImage? backImage : null} />
                         </div>
                         <div className="closeButton">
-                            {/* <img src={closeImage} /> */}
-                            RIGHT
+                            <img src={closeImage} />
                         </div>
                     </div>
-                    {children}
+                    <div className="modalChildren">
+                        {children}
+                    </div>
             </div>
         )
     }

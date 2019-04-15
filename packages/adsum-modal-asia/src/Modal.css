@@ -1,0 +1,40 @@
+.modalContainer{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    grid-template-areas: 
+    'controller'
+    'children';
+}
+.modalContainer .modalController{
+    top: 0;
+    left: 0;
+    grid-area: controller;
+    border: 2px solid green;
+}
+.modalContainer .modalController .backButton{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.modalContainer .modalController .backButton img{
+    height: 90%;
+    width: 90%;
+}
+
+.modalContainer .modalController .closeButton{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.modalContainer .modalController .closeButton img{
+    height: 90%;
+    width: 90%;
+}
+
+.modalContainer .modalChildren{
+    grid-area: children;
+}

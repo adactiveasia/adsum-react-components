@@ -1,20 +1,42 @@
-.modalController{
+.modalContainer{
     position: absolute;
     top: 0;
     left: 0;
-    // height: 50px;
     display: grid;
-    grid-template-areas: 'back close';
-    justify-content: space-between;
-    border: 2px solid green;
+    grid-template-areas: 
+    'controller'
+    'children';
 
-    .backButton{
-        grid-area: back;
-        border: 2px solid black;
+    .modalController{
+        top: 0;
+        left: 0;
+        grid-area: controller;
+        border: 2px solid green;
+
+        .backButton{
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .backButton img{
+            height: 90%;
+            width: 90%;
+        }
+
+        .closeButton{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .closeButton img{
+            height: 90%;
+            width: 90%;
+        }
     }
 
-    .closeButton{
-        grid-area: close;
-        border: 2px solid orange;
+    .modalChildren{
+        grid-area: children;
     }
 }
