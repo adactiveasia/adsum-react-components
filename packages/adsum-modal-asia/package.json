@@ -1,0 +1,41 @@
+{
+  "name": "@adactive/adsum-modal-asia",
+  "version": "1.0.0",
+  "description": "Adsum Modal Component",
+  "main": "index.js",
+  "author": "Erlanda Zakaria <erlandazakaria@gmail.com>",
+  "license": "UNLISENCED",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0"
+  },
+  "devDependencies": {
+    "react": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "redux-saga": "^0.16.0"
+  },
+  "peerDependencies": {
+    "react": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "redux-saga": "^0.16.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/adactiveasia/adsum-react-components.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adactiveasia/adsum-react-components.git/issues"
+  },
+  "scripts": {},
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "adsum",
+    "react",
+    "redux",
+    "modal"
+  ],
+  "gitHead": "7ab0b2fbd88be57a246385ca5758420dbbc27bad"
+}

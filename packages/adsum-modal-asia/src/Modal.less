@@ -1,0 +1,20 @@
+.modalController{
+    position: absolute;
+    top: 0;
+    left: 0;
+    // height: 50px;
+    display: grid;
+    grid-template-areas: 'back close';
+    justify-content: space-between;
+    border: 2px solid green;
+
+    .backButton{
+        grid-area: back;
+        border: 2px solid black;
+    }
+
+    .closeButton{
+        grid-area: close;
+        border: 2px solid orange;
+    }
+}
