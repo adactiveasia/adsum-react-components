@@ -121,7 +121,7 @@ class AdsumCarousel extends React.Component<PropsType> {
 
             const videoProp = this._videoPlayers[id].video.getProperties();
             // eslint-disable-next-line radix
-            const convertedVideoDuration = (parseInt(videoProp.duration) + 1) * 1000;
+            const convertedVideoDuration = parseInt(videoProp.duration) * 1000;
             this._videoPlayers[id].play();
 
             this.makeItLoop(id, convertedVideoDuration);
@@ -129,6 +129,10 @@ class AdsumCarousel extends React.Component<PropsType> {
             this.checkTimeOut();
             this.makeItLoop(id, autoSlideInterval);
         }
+    }
+
+    goToNextSlide() {
+        null
     }
 
     /**
@@ -160,6 +164,7 @@ class AdsumCarousel extends React.Component<PropsType> {
                             index={index}
                             media={media}
                             onPlayerInit={this.onPlayerInit}
+                            onVideoEnded={this.goToNextSlide}
                             shouldReplayVideo={medias.length === 1 && (medias[0].file.file_type === 'video/mp4' || medias[0].file.file_type === 'video/x-m4v')}
                             parentStyle={parentStyle}
                         />

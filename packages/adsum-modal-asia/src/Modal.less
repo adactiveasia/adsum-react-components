@@ -1,17 +1,15 @@
-.modalContainer{
+.modalContainer {
     position: absolute;
-    top: 0;
-    left: 0;
     display: grid;
     grid-template-areas: 
     'controller'
-    'children';
+    'content';
 
-    .modalController{
+    .modalController {
+        grid-area: controller;
+        position: absolute;
         top: 0;
         left: 0;
-        grid-area: controller;
-        border: 2px solid green;
 
         .backButton{
             position: absolute;
@@ -19,24 +17,14 @@
             left: 0;
         }
 
-        .backButton img{
-            height: 90%;
-            width: 90%;
-        }
-
         .closeButton{
             position: absolute;
             top: 0;
             right: 0;
         }
-
-        .closeButton img{
-            height: 90%;
-            width: 90%;
-        }
     }
 
-    .modalChildren{
-        grid-area: children;
+    .content {
+        grid-area: content;
     }
 }

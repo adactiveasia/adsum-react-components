@@ -37,8 +37,15 @@ type StateType = {||}
 class Modal extends React.Component<PropsType, StateType> {
     static defaultProps = {
         backButton: false,
+        modalPosition: {
+            top: 0,
+            right: null,
+            bottom: null,
+            left: 0,
+        },
         modalWidth: "100%",
-        modalHeight: "100%"
+        modalHeight: "100%",
+        modalColor: "white",
     }
 
     state = {
@@ -50,19 +57,37 @@ class Modal extends React.Component<PropsType, StateType> {
 
     componentDidUpdate(prevProps, prevState) {
         const { modalState } = this.props;
-        // const { modalIsOpen } = this.state;
+        const { modalIsOpen } = this.state;
 
-        if(prevProps.modalState !== modalState){
-            if(modalState){
-                this.setState({
-                    modalIsOpen: true,
-                })
-            } else {
-                this.setState({
-                    modalIsOpen: false,
-                })
-            }
+        // if(!modalIsOpen && modalState.open && prevProps.modalState.open !== modalState.open){
+        //         this.setState({
+        //             modalIsOpen: true,
+        //         })
+        //         console.log('pp')
+        //     } 
+        // if (modalIsOpen && !modalState.open && prevProps.modalState.open !== modalState.open) {
+        //         this.setState({
+        //             modalIsOpen: false,
+        //         })
+        // }
 
+        // if(modalState.name==="promotion"){
+        //     console.log("")
+        // }
+    }
+
+    backFunction = () => {
+        const { openModal, 
+                setModal, 
+                removeModalStructure,
+                modalState } = this.props;
+            
+        if(modalState.structure.length>0){
+            setModal(modalState.structure[modalState.structure.length-1])
+            removeModalStructure();
+        }
+        else {
+            openModal(false);
         }
     }
 
@@ -72,7 +97,11 @@ class Modal extends React.Component<PropsType, StateType> {
                 closeImage, 
                 modalWidth, 
                 modalHeight,
-                children } = this.props;
+                modalPosition,
+                modalColor,
+                children,
+                openModal,
+                removeAllModalStructure } = this.props;
 
         return(
             <div 
@@ -80,17 +109,29 @@ class Modal extends React.Component<PropsType, StateType> {
                 style={{
                         width: modalWidth,
                         height: modalHeight,
-                        backgroundColor: "green"
+                        top: modalPosition.top,
+                        right: modalPosition.right,
+                        bottom: modalPosition.bottom,
+                        left: modalPosition.left,
+                        backgroundColor: modalColor,
                         }}>
                     <div className="modalController">
                         <div className="backButton">
-                            <img src={backImage? backImage : null} />
+                            <img 
+                                src={backImage ? backImage : null}
+                                onClick={this.backFunction} 
+                                />
                         </div>
                         <div className="closeButton">
-                            <img src={closeImage} />
+                            <img 
+                                src={closeImage} 
+                                onClick={() => {
+                                        openModal(false);
+                                        removeAllModalStructure();
+                                        }}/>
                         </div>
                     </div>
-                    <div className="modalChildren">
+                    <div className="content">
                         {children}
                     </div>
             </div>
@@ -98,11 +139,11 @@ class Modal extends React.Component<PropsType, StateType> {
     }
 
     render() {
-        const { modalIsOpen } = this.state;
+        const { modalState } = this.props;
 
         return (
             <React.Fragment>
-                {modalIsOpen && this.renderModal()}
+                {modalState.open && this.renderModal()}
             </React.Fragment>
         );
     }
@@ -116,11 +157,23 @@ const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
     openModal: (value: ?boolean) => {
         dispatch(ModalActions.openModal(value));
     },
+    setModal: (name: ?boolean) => {
+        dispatch(ModalActions.setModal(name));
+    },
     setPoi: (poi: ?array) => {
         dispatch(ModalActions.setPoi(poi));
     },
-    setPoiParent: (parent: ?string) => {
-        dispatch(ModalActions.setPoiParent(parent));
+    setModalParent: (parent: ?string) => {
+        dispatch(ModalActions.setModalParent(parent));
+    },
+    setModalStructure: (name: ?string) => {
+        dispatch(ModalActions.setModalStructure(name));
+    },
+    removeModalStructure: () => {
+        dispatch(ModalActions.removeModalStructure());
+    },
+    removeAllModalStructure: () => {
+        dispatch(ModalActions.removeAllModalStructure());
     },
     setPreviousPoi: (poi: ?array) => {
         dispatch(ModalActions.setPreviousPoi(poi));
