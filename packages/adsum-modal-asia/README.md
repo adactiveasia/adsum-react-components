@@ -5,94 +5,165 @@
 ## Getting started
 
 1. Install this component using
-    yarn add adsum-screensaver-asia
+    yarn add adsum-modal-asia
 2. Setting Redux Reducers
     typically located on your_project_folder/src/rootReducer.js
     - import the reducer : 
-    **import { ScreenSaverReducers } from '@adactive/arc-screensaver-asia';**
+    ```import { ModalReducers } from '@adactive/arc-modal-asia';```
     - add ScreenSaverReducers on your root reducer, for example:
-    const appState: AppStateType = {
+    ```
+        const appState: AppStateType = {
         routing: routerReducer,
         map,
         loadingScreen,
-        screenSaver: **ScreenSaverReducers**
-    };
+        modal: ModalReducers
+        };
+    ```
 3. Setting Redux Actions in your Apps
     First thing to do is to import the action to file which you need the actions, for example app.js
-    **import { ScreenSaverActions } from '@adactive/arc-screensaver-asia';**
+    ```import { ModalActions } from '@adactive/arc-modal-asia';```
 
-    There is 2 redux prop actions that this component have:
-    - Action to close Screen Saver 
-    **(ScreenSaverActions.screenSaverClose)**
-    - Action to restart the timer (mainly used to on main app div onClick)
-    **(ScreenSaverActions.appClick)**
+    There is 5 redux prop actions that this component have:
+    setPoiStructure(modalState.poi);
+    setModal("shopDetail"); 
+    openModal(true);
+    setModalStructure("categoryDetail");
+    setPoi(newItem);
+
+
+        setModal("categoryDetail"); 
+        openModal(true);
+        setModalStructure("search");
+        setPoi(item);
+    The first action is ***ONLY*** required if a function want to open children of current modal but we need to save the poi for back button. Usually it used on children that want to call grandchildren
+    - Action to save the poi in the structure for nested
+    **(ModalActions.setPoiStructure)**
+    This Following Two Actions is required to show modal
+    - Action to set which modal will appear
+    **(ModalActions.setModal)**
+    - Action to open the modal
+    **(ModalActions.openModal)**
+    The Following Two Actions is required when a function is opening a child of nested modal
+    - Action to set which modal is the parent of will be opened modal
+    **(ModalActions.setModalStructure)**
+    - Action to save the poi of current modal
+    **(ModalActions.setPoi)**
 
     Put these to actions on the **mapDispatchToProps**  
     For Example:
     
-    const **mapDispatchToProps** = (dispatch: *): MappedDispatchPropsType => ({
-        **appClick**: (value: ?boolean) => {
-            **dispatch(ScreenSaverActions.appClick(value))**;
+    ```
+    const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
+        openModal: (abc) => {
+            dispatch(ModalActions.openModal(abc));
         },
-        **screenSaverClose**: (value: ?boolean) => {
-            **dispatch(ScreenSaverActions.screenSaverClose(value))**;
+        setModal: (name) => {
+            dispatch(ModalActions.setModal(name));
+        },
+        setModalStructure: (name) => {
+            dispatch(ModalActions.setModalStructure(name));
+        },
+        setPoi: (item) => {
+            dispatch(ModalActions.setPoi(item));
+        },
+        setPoiStructure: (item) => {
+            dispatch(ModalActions.setPoiStructure(item));
         }
     });
-
-    You can call function props **appClick(true)** to reset screensaver timer or **screenSaverClose(true)** to close screensaver in that file.
+    ```
 
 4. Attach ScreenSaver Component
     for example:
     ```javascript
-    <ScreenSaver openFirst={true} inactivityTimer={2000}>**
-                <div onClick={this.onScreenSaverClosed}>CLOSE</div>
-                    <AdsumCarousel 
-                        isOpen
-                        medias={mediasList}
-                        carouselOptions={{
-                            dragging: true,
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            // adaptiveHeight: true,
-                            wrapAround: true,
-                            autoplayInterval: 1000,
-                        }}
-                        onMediaTouch={() => {}} // fix a bug inside AdsumCarousel
-                        style={{ width: '1080px', height: '700px' }}
-                        autoSlide={true}
-                        autoSlideInterval={5000}
-                    />
-    </ScreenSaver>
+    <Modal  
+        backImage={backImage}
+        closeImage={closeImage}
+        modalWidth={"100px"}
+        modalHeight={"100px"}
+        modalPosition={{
+            top: '0',
+            left: '200px'
+        }}
+        modalColor={"blue"}
+        overlayOpen={true}
+        overlayWidth={"400px"}
+        overlayHeight={"400px"}
+        overlayColor={"green"}
+        overlayOpacity={"1.0"}
+        overlayPosition={{
+            top: '0',
+            left: '200px',
+        }}
+    >
+        <div style={{backgroundColor: "pink", fontSize: "36px"}}>MODAL THREE</div>
+    </Modal>
 ```
-    the Children (html elements or components inside <ScreenSaver> tag) will be called after screensaver's timer time out
-
 
 ### Props
 
-**inactivityTimer** - time in ms, which should pass without any clicks inside the app for screensaver to appear
+**backButton** - Back Icon, if not provided, will be no back button on Modal
 
-**openFirst** - a boolean to decide if screensaver open first as the app launched or not
+**modalPosition** - modal Position in object contains top, right, bottom, and left
 
-**children** - html elements or components inside <ScreenSaver> tag that will be called after screensaver's timer time out
+**modalWidth** - modal width in string
+**modalHeight** - modal height in string
+**modalColor** - modal color in string
+
+**overlayOpen** - overlay open or not in boolean
+
+**overlayWidth** - overlay width in string
+**overlayHeight** - overlay height in string
+**overlayColor** - overlay color in string
+
+**overlayOpacity**: overlay opacity in string, in default will be set 0.0 or transparent,
+
+**overlayPosition**: overlay Position in object contains top, right, bottom, and left,
  
 ```javascript
 type OwnPropsType = {|
-    inactivityTimer: number,
-    openFirst: boolean,
-    children: Element<any>
+    backButton: string,
+    modalPosition: object,
+    modalWidth: string,
+    modalHeight: string,
+    modalColor: string,
+    overlayOpen: boolean,
+    overlayWidth: string,
+    overlayHeight: string,
+    overlayColor: string,
+    overlayOpacity: string,
+    overlayPosition: array,
 |};
 
 static defaultProps = {
-    inactivityTimer: 10000,
-    openFirst: true,
-};
+        backButton: null,
+        modalPosition: {
+            top: 0,
+            right: null,
+            bottom: null,
+            left: 0,
+        },
+        modalWidth: "100%",
+        modalHeight: "100%",
+        modalColor: "white",
+        overlayOpen: true,
+        overlayWidth: "100%",
+        overlayHeight: "100%",
+        overlayColor: "white",
+        overlayOpacity: "0.0",
+        overlayPosition: {
+            top: 0,
+            right: null,
+            bottom: null,
+            left: 0,
+        },
+    }
 ```
 
 
 ## Copy component inside your project src folder  
 
 ### Less only
-    `npx @adactive/arc-screensaver copy --less-only`
+    `npx @adactive/arc-modal-asia copy --less-only`
     
 ### Full copy
-    `npx @adactive/arc-screensaver copy`
+    `npx @adactive/arc-modal-asia copy`

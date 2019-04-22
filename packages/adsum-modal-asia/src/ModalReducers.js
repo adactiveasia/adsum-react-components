@@ -1,20 +1,23 @@
 // @flow
 
-import { OPEN_MODAL,
-         SET_MODAL,
-         SET_POI,
-         SET_PREVIOUS_POI,
-         SET_MODAL_STRUCTURE,
-         REMOVE_MODAL_STRUCTURE,
-         REMOVE_ALL_MODAL_STRUCTURE,
-         } from './ModalActions';
+import {
+    OPEN_MODAL,
+    SET_MODAL,
+    SET_MODAL_STRUCTURE,
+    REMOVE_MODAL_STRUCTURE,
+    REMOVE_ALL_MODAL_STRUCTURE,
+    SET_POI,
+    SET_POI_STRUCTURE,
+    REMOVE_POI_STRUCTURE,
+    REMOVE_ALL_POI_STRUCTURE,
+} from './ModalActions';
 
 const initialState = {
     open: false,
     name: null,
-    poi: [],
-    previousPoi: [],
     structure: [],
+    poi: [],
+    poiStructure: [],
 };
 
 export default function (state = initialState, action) {
@@ -27,25 +30,33 @@ export default function (state = initialState, action) {
         return Object.assign({}, state, {
             name: action.payload
         });
-    case SET_POI:
-        return Object.assign({}, state, {
-            poi: action.payload
-        });
-    case SET_MODAL_STRUCTURE: 
+    case SET_MODAL_STRUCTURE:
         return Object.assign({}, state, {
             structure: [...state.structure, action.payload]
+        });
+    case REMOVE_MODAL_STRUCTURE:
+        return Object.assign({}, state, {
+            structure: state.structure.slice(0, -1)
         });
     case REMOVE_ALL_MODAL_STRUCTURE:
         return Object.assign({}, state, {
             structure: []
         });
-    case REMOVE_MODAL_STRUCTURE: 
+    case SET_POI:
         return Object.assign({}, state, {
-            structure: state.structure.slice(0, -1)
+            poi: action.payload
         });
-    case SET_PREVIOUS_POI:
+    case SET_POI_STRUCTURE:
         return Object.assign({}, state, {
-            previousPoi: action.payload
+            poiStructure: [...state.poiStructure, action.payload]
+        });
+    case REMOVE_POI_STRUCTURE:
+        return Object.assign({}, state, {
+            poiStructure: state.poiStructure.slice(0, -1)
+        });
+    case REMOVE_ALL_POI_STRUCTURE:
+        return Object.assign({}, state, {
+            poiStructure: []
         });
     default:
         return state;

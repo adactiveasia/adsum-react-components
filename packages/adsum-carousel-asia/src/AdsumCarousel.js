@@ -132,7 +132,7 @@ class AdsumCarousel extends React.Component<PropsType> {
     }
 
     goToNextSlide() {
-        null
+        null;
     }
 
     /**
