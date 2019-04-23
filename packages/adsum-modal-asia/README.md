@@ -9,7 +9,7 @@
 2. Setting Redux Reducers
     typically located on your_project_folder/src/rootReducer.js
     - import the reducer : 
-    ```import { ModalReducers } from '@adactive/arc-modal-asia';```
+    ```import { ModalReducers } from '@adactive/adsum-modal-asia';```
     - add ScreenSaverReducers on your root reducer, for example:
     ```
         const appState: AppStateType = {
@@ -21,33 +21,23 @@
     ```
 3. Setting Redux Actions in your Apps
     First thing to do is to import the action to file which you need the actions, for example app.js
-    ```import { ModalActions } from '@adactive/arc-modal-asia';```
+    ```import { ModalActions } from '@adactive/adsum-modal-asia';```
 
     There is 5 redux prop actions that this component have:
-    setPoiStructure(modalState.poi);
-    setModal("shopDetail"); 
-    openModal(true);
-    setModalStructure("categoryDetail");
-    setPoi(newItem);
 
-
-        setModal("categoryDetail"); 
-        openModal(true);
-        setModalStructure("search");
-        setPoi(item);
     The first action is ***ONLY*** required if a function want to open children of current modal but we need to save the poi for back button. Usually it used on children that want to call grandchildren
-    - Action to save the poi in the structure for nested
-    **(ModalActions.setPoiStructure)**
+        - Action to save the poi in the structure for nested
+        **(ModalActions.setPoiStructure)**
     This Following Two Actions is required to show modal
-    - Action to set which modal will appear
-    **(ModalActions.setModal)**
-    - Action to open the modal
-    **(ModalActions.openModal)**
+        - Action to set which modal will appear
+        **(ModalActions.setModal)**
+        - Action to open the modal
+        **(ModalActions.openModal)**
     The Following Two Actions is required when a function is opening a child of nested modal
-    - Action to set which modal is the parent of will be opened modal
-    **(ModalActions.setModalStructure)**
-    - Action to save the poi of current modal
-    **(ModalActions.setPoi)**
+        - Action to set which modal is the parent of will be opened modal
+        **(ModalActions.setModalStructure)**
+        - Action to save the poi of current modal
+        **(ModalActions.setPoi)**
 
     Put these to actions on the **mapDispatchToProps**  
     For Example:
@@ -163,7 +153,7 @@ static defaultProps = {
 ## Copy component inside your project src folder  
 
 ### Less only
-    `npx @adactive/arc-modal-asia copy --less-only`
+    `npx @adactive/adsum-modal-asia copy --less-only`
     
 ### Full copy
-    `npx @adactive/arc-modal-asia copy`
+    `npx @adactive/adsum-modal-asia copy`
