@@ -1,9 +1,9 @@
 {
-  "name": "@adactive/arc-screensaver",
+  "name": "@adactive/adsum-modal-asia",
   "version": "2.5.0",
-  "description": "Adsum Screensaver Component",
+  "description": "Adsum Modal Component",
   "main": "index.js",
-  "author": "Andrei Pavlov <andrei.pavlov@adactive.com>",
+  "author": "Erlanda Zakaria <erlandazakaria@gmail.com>",
   "license": "UNLISENCED",
   "readmeFilename": "README.md",
   "dependencies": {
@@ -35,6 +35,7 @@
     "adsum",
     "react",
     "redux",
-    "screensaver"
-  ]
+    "modal"
+  ],
+  "gitHead": "7ab0b2fbd88be57a246385ca5758420dbbc27bad"
 }
