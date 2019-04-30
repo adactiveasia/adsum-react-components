@@ -36,6 +36,7 @@ type OwnPropsType = {|
     overlayColor: string,
     overlayOpacity: string,
     overlayPosition: array,
+    modalClassName: string,
 |};
 
 type PropsType = MappedStatePropsType & MappedDispatchPropsType & OwnPropsType;
@@ -116,13 +117,13 @@ class Modal extends React.Component<PropsType, StateType> {
             overlayWidth,
             overlayHeight,
             overlayColor,
-            overlayOpacity
+            overlayOpacity,
+            modalClassName
         } = this.props;
-
         return (
             <React.Fragment>
                 <div
-                    className="modalContainer"
+                    className={modalClassName? modalClassName : "modalContainer"}
                     style={{
                         width: modalWidth,
                         height: modalHeight,
