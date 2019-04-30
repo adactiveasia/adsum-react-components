@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { ModalActions } from '..';
 
 import './Modal.css';
+import defaultCloseImage from './close.svg';
 
 /**
  * Modal widget, display a carousel of medias (images or videos) or "Touch to Navigate" message
@@ -134,15 +135,16 @@ class Modal extends React.Component<PropsType, StateType> {
                 >
                     <div className="modalController">
                         <div className="backButton">
+                            {backImage && 
                             <img
-                                src={backImage || null}
+                                src={backImage}
                                 onClick={this.handleBack}
                                 alt="modalBack"
-                            />
+                            />}
                         </div>
                         <div className="closeButton">
                             <img
-                                src={closeImage}
+                                src={closeImage? closeImage : defaultCloseImage}
                                 onClick={this.handleClose}
                                 alt="modalClose"
                             />
