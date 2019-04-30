@@ -4,6 +4,7 @@
     grid-template-areas: 
     'controller'
     'content';
+    z-index: 888;
 }
 .modalContainer .modalController {
     grid-area: controller;
