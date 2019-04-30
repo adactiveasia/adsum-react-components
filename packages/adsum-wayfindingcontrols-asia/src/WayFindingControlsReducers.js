@@ -1,6 +1,6 @@
 // @flow
 
-import { 
+import {
     tmt,
     DESTINATION,
     PLACE_DESTINATION,
