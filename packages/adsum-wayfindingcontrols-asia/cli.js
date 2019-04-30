@@ -8,7 +8,7 @@ let cmdValue = '';
 const program = require('commander');
 
 program
-    .usage('npx @adactive/arc-wayFindingControls-asia copy')
+    .usage('npx @adactive/adsum-wayfindingcontrols-asia copy')
     .option('--no-install', 'npx option')
     .option('--less-only', 'just copy the style')
     .action((cmd) => {
