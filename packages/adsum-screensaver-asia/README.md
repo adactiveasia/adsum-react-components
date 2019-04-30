@@ -9,7 +9,7 @@
 2. Setting Redux Reducers
     typically located on your_project_folder/src/rootReducer.js
     - import the reducer : 
-    **import { ScreenSaverReducers } from '@adactive/arc-screensaver-asia';**
+    **import { ScreenSaverReducers } from '@adactive/adsum-screensaver-asia';**
     - add ScreenSaverReducers on your root reducer, for example:
     const appState: AppStateType = {
         routing: routerReducer,
@@ -19,7 +19,7 @@
     };
 3. Setting Redux Actions in your Apps
     First thing to do is to import the action to file which you need the actions, for example app.js
-    **import { ScreenSaverActions } from '@adactive/arc-screensaver-asia';**
+    **import { ScreenSaverActions } from '@adactive/adsum-screensaver-asia';**
 
     There is 2 redux prop actions that this component have:
     - Action to close Screen Saver 
@@ -66,6 +66,9 @@
 ```
     the Children (html elements or components inside <ScreenSaver> tag) will be called after screensaver's timer time out
 
+5. Attach App Click on Your App(main) Component
+    ```onClick={() => this.props.appClick(true)}```
+
 
 ### Props
 
@@ -92,7 +95,7 @@ static defaultProps = {
 ## Copy component inside your project src folder  
 
 ### Less only
-    `npx @adactive/arc-screensaver copy --less-only`
+    `npx @adactive/adsum-screensaver copy --less-only`
     
 ### Full copy
-    `npx @adactive/arc-screensaver copy`
+    `npx @adactive/adsum-screensaver copy`

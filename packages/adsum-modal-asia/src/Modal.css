@@ -1,0 +1,25 @@
+.modalContainer {
+    position: absolute;
+    display: grid;
+    grid-template-areas: 
+    'controller'
+    'content';
+}
+.modalContainer .modalController {
+    grid-area: controller;
+    top: 0;
+    left: 0;
+}
+.modalContainer .modalController .backButton{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.modalContainer .modalController .closeButton{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.modalContainer .content {
+    grid-area: content;
+}
