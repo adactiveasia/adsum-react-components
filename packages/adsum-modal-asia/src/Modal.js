@@ -123,7 +123,7 @@ class Modal extends React.Component<PropsType, StateType> {
         return (
             <React.Fragment>
                 <div
-                    className={modalClassName? modalClassName : "modalContainer"}
+                    className={modalClassName || 'modalContainer'}
                     style={{
                         width: modalWidth,
                         height: modalHeight,
@@ -136,16 +136,18 @@ class Modal extends React.Component<PropsType, StateType> {
                 >
                     <div className="modalController">
                         <div className="backButton">
-                            {backImage && 
-                            <img
-                                src={backImage}
-                                onClick={this.handleBack}
-                                alt="modalBack"
-                            />}
+                            {backImage
+                            && (
+                                <img
+                                    src={backImage}
+                                    onClick={this.handleBack}
+                                    alt="modalBack"
+                                />
+                            )}
                         </div>
                         <div className="closeButton">
                             <img
-                                src={closeImage? closeImage : defaultCloseImage}
+                                src={closeImage || defaultCloseImage}
                                 onClick={this.handleClose}
                                 alt="modalClose"
                             />
