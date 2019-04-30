@@ -101,7 +101,10 @@ class ScreenSaver extends React.Component<PropsType, StateType> {
         const { screensaverIsOpen } = this.state;
 
         return (
-            <div style={{width: '100%', height: '100%', zIndex: '999', position: 'absolute'}}>
+            <div style={{
+                width: '100%', height: '100%', zIndex: '999', position: 'absolute'
+            }}
+            >
                 {screensaverIsOpen && children}
             </div>
         );
