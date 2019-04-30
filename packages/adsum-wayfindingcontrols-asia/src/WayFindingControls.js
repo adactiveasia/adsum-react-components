@@ -9,8 +9,8 @@ import { MainActions, WayfindingActions, SelectionActions } from '@adactive/arc-
 import { WayFindingControlsActions } from '../';
 
 type MappedStatePropsType = {|
-    wayfindingState: :*,
-    getPath: :*,
+    wayfindingState: *,
+    getPath: *,
     wayFindingControlsState: object,
 |};
 
@@ -98,7 +98,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                 }
 
     // If It is Destination Label
-                if(prevProps.wayfindingState.drawing
+                if(prevProps.wayfindingState.drawing !== wayfindingState.drawing
                     && wayfindingState.currentSectionIndex === (pathSection.length-1)
                     && wayFindingControlsState.arrivedLabel !== pathSection[pathSection.length-1].to
                     ){
