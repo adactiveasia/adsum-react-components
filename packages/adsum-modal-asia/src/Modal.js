@@ -75,18 +75,30 @@ class Modal extends React.Component<PropsType, StateType> {
             removeModalStructure,
             modalState,
             setPoi,
-            removePoiStructure
+            removePoiStructure,
+            customBackFunction,
         } = this.props;
 
         if (modalState.structure.length > 0) {
+            if (customBackFunction) {
+                customBackFunction();
+            }
+
             setModal(modalState.structure[modalState.structure.length - 1]);
             removeModalStructure();
 
             if (modalState.poiStructure.length > 0) {
+                if (customBackFunction) {
+                    customBackFunction();
+                }
+
                 setPoi(modalState.poiStructure[modalState.poiStructure.length - 1]);
                 removePoiStructure();
             }
         } else {
+            if (customBackFunction) {
+                customBackFunction();
+            }
             openModal(false);
         }
     }
@@ -95,8 +107,13 @@ class Modal extends React.Component<PropsType, StateType> {
         const {
             openModal,
             removeAllModalStructure,
-            removeAllPoiStructure
+            removeAllPoiStructure,
+            customCloseFunction,
         } = this.props;
+
+        if (customCloseFunction) {
+            customCloseFunction();
+        }
 
         openModal(false);
         removeAllModalStructure();
@@ -118,7 +135,7 @@ class Modal extends React.Component<PropsType, StateType> {
             overlayHeight,
             overlayColor,
             overlayOpacity,
-            modalClassName
+            modalClassName,
         } = this.props;
         return (
             <React.Fragment>
