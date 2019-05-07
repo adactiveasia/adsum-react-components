@@ -2,4 +2,5 @@
 1.0.1 - Fixing Bug
 1.0.2 - Fixing Bug
 1.0.3 - Fixing Bug
-1.0.4 - Fixing Bug Reset Arrival
+1.0.4 - Fixing Bug
+      - Add Arrival and Destination Label Style Props
