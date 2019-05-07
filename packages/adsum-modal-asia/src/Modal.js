@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { ModalActions } from '..';
 
 import './Modal.css';
+import defaultCloseImage from './close.svg';
 
 /**
  * Modal widget, display a carousel of medias (images or videos) or "Touch to Navigate" message
@@ -35,6 +36,7 @@ type OwnPropsType = {|
     overlayColor: string,
     overlayOpacity: string,
     overlayPosition: array,
+    modalClassName: string,
 |};
 
 type PropsType = MappedStatePropsType & MappedDispatchPropsType & OwnPropsType;
@@ -73,18 +75,30 @@ class Modal extends React.Component<PropsType, StateType> {
             removeModalStructure,
             modalState,
             setPoi,
-            removePoiStructure
+            removePoiStructure,
+            customBackFunction,
         } = this.props;
 
         if (modalState.structure.length > 0) {
+            if (customBackFunction) {
+                customBackFunction();
+            }
+
             setModal(modalState.structure[modalState.structure.length - 1]);
             removeModalStructure();
 
             if (modalState.poiStructure.length > 0) {
+                if (customBackFunction) {
+                    customBackFunction();
+                }
+
                 setPoi(modalState.poiStructure[modalState.poiStructure.length - 1]);
                 removePoiStructure();
             }
         } else {
+            if (customBackFunction) {
+                customBackFunction();
+            }
             openModal(false);
         }
     }
@@ -93,8 +107,13 @@ class Modal extends React.Component<PropsType, StateType> {
         const {
             openModal,
             removeAllModalStructure,
-            removeAllPoiStructure
+            removeAllPoiStructure,
+            customCloseFunction,
         } = this.props;
+
+        if (customCloseFunction) {
+            customCloseFunction();
+        }
 
         openModal(false);
         removeAllModalStructure();
@@ -115,13 +134,13 @@ class Modal extends React.Component<PropsType, StateType> {
             overlayWidth,
             overlayHeight,
             overlayColor,
-            overlayOpacity
+            overlayOpacity,
+            modalClassName,
         } = this.props;
-
         return (
             <React.Fragment>
                 <div
-                    className="modalContainer"
+                    className={modalClassName || 'modalContainer'}
                     style={{
                         width: modalWidth,
                         height: modalHeight,
@@ -134,15 +153,18 @@ class Modal extends React.Component<PropsType, StateType> {
                 >
                     <div className="modalController">
                         <div className="backButton">
-                            <img
-                                src={backImage || null}
-                                onClick={this.handleBack}
-                                alt="modalBack"
-                            />
+                            {backImage
+                            && (
+                                <img
+                                    src={backImage}
+                                    onClick={this.handleBack}
+                                    alt="modalBack"
+                                />
+                            )}
                         </div>
                         <div className="closeButton">
                             <img
-                                src={closeImage}
+                                src={closeImage || defaultCloseImage}
                                 onClick={this.handleClose}
                                 alt="modalClose"
                             />
