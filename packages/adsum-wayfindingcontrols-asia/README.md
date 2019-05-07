@@ -127,21 +127,57 @@
         wayFindingControlsState.destination[0]
     ```
 
+    **This WayFinding Have FOUR OPTIONAL PROPS**
+    1. destinationLabelText, it is Destination Label Text, the default was "You Reached (Shop)"
+    2. icLabelText, it is InterChange Label Text, the default was "Head Down/Up (Floor)"
+    3. arrivalLabelStyle, it is Destination Label Styling and Offset, the structure should be the same as the default which can see below (props Detail)
+    4. interchangeLabelStyle, it is Interchange Label Styling and Offset, the structure should be the same as the default which can see below (props Detail)
+
 # Props Detail
  
 ```javascript
-    type OwnPropsType = {|
+type OwnPropsType = {|
     //props needed when call this component
     awm: *,
     kioskPlace: object,
     //optional props
     destinationLabelText: string,
     icLabelText: string,
+    arrivalLabelStyle: object,
+    interchangeLabelStyle: object,
 |};
 
 static defaultProps = {
         destinationLabelText: "You reached ",
         icLabelText: "Head ",
+        arrivalLabelStyle: {
+                offset: {
+                    x: 0,
+                    y: 0,
+                    z: 15,
+                },
+                style: {
+                    backgroundColor: '#00437a',
+                    backgroundOpacity: 0.9,
+                    backgroundRadius: 3,
+                    color: '#ffffff',
+                    size: 4,
+                },
+        },
+        interchangeLabelStyle: {
+            offset: {
+                x: 0,
+                y: 0,
+                z: 15,
+            },
+            style: {
+                backgroundColor: '#00437a',
+                backgroundOpacity: 0.9,
+                backgroundRadius: 3,
+                color: '#ffffff',
+                size: 4,
+            },
+        },
     }
 ```
 ***You can Edit sentence to use 
