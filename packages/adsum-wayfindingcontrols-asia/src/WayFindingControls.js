@@ -43,6 +43,8 @@ type OwnPropsType = {|
     //optional props
     destinationLabelText: string,
     icLabelText: string,
+    arrivalLabelStyle: object,
+    interchangeLabelStyle: object,
 |};
 
 class WayFindingControls extends React.Component<PropsType, StateType> {
@@ -50,6 +52,34 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
     static defaultProps = {
         destinationLabelText: "You reached ",
         icLabelText: "Head ",
+        arrivalLabelStyle: {
+                offset: {
+                    x: 0,
+                    y: 0,
+                    z: 15,
+                },
+                style: {
+                    backgroundColor: '#00437a',
+                    backgroundOpacity: 0.9,
+                    backgroundRadius: 3,
+                    color: '#ffffff',
+                    size: 4,
+                },
+        },
+        interchangeLabelStyle: {
+            offset: {
+                x: 0,
+                y: 0,
+                z: 15,
+            },
+            style: {
+                backgroundColor: '#00437a',
+                backgroundOpacity: 0.9,
+                backgroundRadius: 3,
+                color: '#ffffff',
+                size: 4,
+            },
+    },
     }
 
     componentDidUpdate(prevProps){
@@ -161,7 +191,13 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
     }
 
     addArrivalLabel(finalLabelText, pathSection){
-        const { wayFindingControlsState, resetInterchangeLabel, arrivedLabel, awm } = this.props;
+        const { 
+                wayFindingControlsState, 
+                resetInterchangeLabel, 
+                arrivedLabel, 
+                awm,
+                arrivalLabelStyle 
+            } = this.props;
 
         if(wayFindingControlsState.interchangeLabel.length>0){
             resetInterchangeLabel()
@@ -169,18 +205,8 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
 
         const arrivedLabelText = new LabelTextObject({
             text: finalLabelText,
-            offset: {
-                x: 0,
-                y: 0,
-                z: 15,
-            },
-            style: {
-                backgroundColor: '#00437a',
-                backgroundOpacity: 0.9,
-                backgroundRadius: 3,
-                color: '#ffffff',
-                size: 4,
-            },
+            offset: arrivalLabelStyle.offset,
+            style: arrivalLabelStyle.style
         });
 
         if(wayFindingControlsState.arrivedLabel && wayFindingControlsState.arrivedLabel.length>0){
@@ -196,22 +222,18 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
     }
 
     addInterchangeLabel(changeFloorLabelText, pathSection){
-        const { wayFindingControlsState, interchangeLabel, awm, wayfindingState } = this.props;
+        const { 
+                wayFindingControlsState, 
+                interchangeLabel, 
+                awm, 
+                wayfindingState,
+                interchangeLabelStyle 
+            } = this.props;
 
         const changeFloorLabel = new LabelTextObject({
             text: changeFloorLabelText,
-            offset: {
-                x: 0,
-                y: 0,
-                z: 15,
-            },
-            style: {
-                backgroundColor: '#00437a',
-                backgroundOpacity: 0.9,
-                backgroundRadius: 3,
-                color: '#ffffff',
-                size: 4,
-            },
+            offset: interchangeLabelStyle.offset,
+            style: interchangeLabelStyle.style,
         });
         const findDuplicateIcLabel = wayFindingControlsState.interchangeLabel.find(function(element) {
             return element === changeFloorLabelText;
