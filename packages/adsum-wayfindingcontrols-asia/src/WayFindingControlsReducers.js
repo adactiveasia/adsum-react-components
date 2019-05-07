@@ -1,12 +1,12 @@
 // @flow
 
-import {
+import { 
     tmt,
     DESTINATION,
     PLACE_DESTINATION,
     ARRIVED_LABEL,
     INTERCHANGE_LABEL,
-    REMOVE_INTERCHANGE_LABEL,
+    RESET_ARRIVAL_LABEL,
     RESET_INTERCHANGE_LABEL,
     RESET_MAP_AND_WAY_FINDING
 } from './WayFindingControlsActions';
@@ -17,7 +17,6 @@ const initialState = {
     placeDestination: null,
     arrivedLabel: [],
     interchangeLabel: [],
-    removeInterchangeLabel: false,
     resetMapAndWayFinding: {
         reset: false,
         resetMap: false,
@@ -52,9 +51,9 @@ export default function (state = initialState, action) {
         return Object.assign({}, state, {
             interchangeLabel: []
         });
-    case REMOVE_INTERCHANGE_LABEL:
+    case RESET_ARRIVAL_LABEL:
         return Object.assign({}, state, {
-            removeInterchangeLabel: action.payload
+            arrivedLabel: []
         });
     case RESET_MAP_AND_WAY_FINDING:
         return Object.assign({}, state, {

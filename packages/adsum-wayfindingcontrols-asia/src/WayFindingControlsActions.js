@@ -1,15 +1,14 @@
 // @flow
 
-import { WayfindingActions } from '@adactive/arc-map';
-// eslint-disable-next-line import/no-unresolved
-import store from '../../../../src/store/index';
+import { WayfindingActions, MainActions } from '@adactive/arc-map';
+import store from './../../../../src/store/index';
 
 export const tmt = 'tmt';
 export const DESTINATION = 'DESTINATION';
 export const PLACE_DESTINATION = 'PLACE_DESTINATION';
 export const ARRIVED_LABEL = 'ARRIVED_LABEL';
 export const INTERCHANGE_LABEL = 'INTERCHANGE_LABEL';
-export const REMOVE_INTERCHANGE_LABEL = 'REMOVE_INTERCHANGE_LABEL';
+export const RESET_ARRIVAL_LABEL = 'RESET_ARRIVAL_LABEL';
 export const RESET_INTERCHANGE_LABEL = 'RESET_INTERCHANGE_LABEL';
 export const RESET_MAP_AND_WAY_FINDING = 'RESET_MAP_AND_WAY_FINDING';
 
@@ -61,10 +60,10 @@ export function interchangeLabel(label) {
     };
 }
 
-export function removeInterchangeLabel(value) {
+export function resetArrivalLabel(value) {
     return (dispatch) => {
         dispatch({
-            type: REMOVE_INTERCHANGE_LABEL,
+            type: RESET_ARRIVAL_LABEL,
             payload: value
         });
     };
@@ -82,18 +81,17 @@ export function resetInterchangeLabel(value) {
 export function resetMapAndWayFinding(
     reset,
     resetMap,
-    resetMapAnimatedOption,
-    resetWayfinding
-) {
-    return (dispatch) => {
-        dispatch({
-            type: RESET_MAP_AND_WAY_FINDING,
-            payload: {
-                reset: reset || false,
-                resetMap: resetMap || false,
-                resetMapAnimatedOption: resetMapAnimatedOption || false,
-                resetWayfinding: resetWayfinding || false
-            }
-        });
-    };
+    resetMapAnimatedOption, 
+    resetWayfinding) {
+        return (dispatch) => {
+            dispatch({
+                type: RESET_MAP_AND_WAY_FINDING,
+                payload: {
+                    reset: reset ? reset : false,
+                    resetMap: resetMap ? resetMap : false,
+                    resetMapAnimatedOption: resetMapAnimatedOption ? resetMapAnimatedOption : false,
+                    resetWayfinding: resetWayfinding ? resetWayfinding : false
+                }
+            });
+        };
 }
