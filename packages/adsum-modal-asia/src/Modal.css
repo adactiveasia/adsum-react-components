@@ -24,3 +24,7 @@
 .modalContainer .content {
     grid-area: content;
 }
+.modalOverlay {
+    position: absolute;
+    z-index: 887;
+}

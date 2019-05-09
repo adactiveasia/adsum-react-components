@@ -80,6 +80,8 @@ class Modal extends React.Component<PropsType, StateType> {
         } = this.props;
 
         if (modalState.structure.length > 0) {
+            ModalActions.modalToggle(true);
+
             if (customBackFunction) {
                 customBackFunction();
             }
@@ -231,7 +233,7 @@ const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
     },
     removeAllPoiStructure: () => {
         dispatch(ModalActions.removeAllPoiStructure());
-    }
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);

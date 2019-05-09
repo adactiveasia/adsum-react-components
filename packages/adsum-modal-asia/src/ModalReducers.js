@@ -14,6 +14,7 @@ import {
 
 const initialState = {
     open: false,
+    toggle: false,
     name: null,
     structure: [],
     poi: [],
