@@ -1,6 +1,6 @@
 {
   "name": "@adactive/adsum-modal-asia",
-  "version": "2.5.3",
+  "version": "2.5.1",
   "description": "Adsum Modal Component",
   "main": "index.js",
   "author": "Erlanda Zakaria <erlandazakaria@gmail.com>",
@@ -37,5 +37,5 @@
     "redux",
     "modal"
   ],
-  "gitHead": "7ab0b2fbd88be57a246385ca5758420dbbc27bad"
+  "gitHead": "e37f46629f661fdf2d2f4b26e66efcb4a2fc7a2d"
 }

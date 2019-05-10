@@ -10,16 +10,50 @@ export const SET_POI_STRUCTURE = 'SET_POI_STRUCTURE';
 export const REMOVE_POI_STRUCTURE = 'REMOVE_POI_STRUCTURE';
 export const REMOVE_ALL_POI_STRUCTURE = 'REMOVE_ALL_POI_STRUCTURE';
 
+let save;
+let saveModal;
+let newValue;
+let modalName;
+let backClicked = false;
+
 export function openModal(value) {
+    if (value === true) {
+        if (save && saveModal && !backClicked
+            && save === value && saveModal === modalName) {
+            save = false;
+            newValue = false;
+            saveModal = null;
+            modalName = null;
+        } else {
+            save = value;
+            newValue = value;
+            saveModal = modalName;
+            backClicked = false;
+        }
+    } else {
+        save = false;
+        newValue = false;
+        saveModal = null;
+        modalName = null;
+        backClicked = false;
+    }
     return (dispatch) => {
         dispatch({
             type: OPEN_MODAL,
-            payload: value
+            payload: newValue
         });
     };
 }
 
+export function modalToggle(value) {
+    backClicked = value;
+}
+
 export function setModal(value) {
+    modalName = value;
+    if (backClicked) {
+        openModal(true);
+    }
     return (dispatch) => {
         dispatch({
             type: SET_MODAL,

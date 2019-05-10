@@ -13,6 +13,7 @@ import { ScreenSaverActions } from '..';
 
 type MappedStatePropsType = {|
     screenSaverState: object,
+    loadingScreenState: number,
 |};
 
 type MappedDispatchPropsType = {|
@@ -24,6 +25,8 @@ type OwnPropsType = {|
     inactivityTimer: number,
     openFirst: boolean,
     children: *,
+    customCloseFunction: *,
+    customOpenFunction: *,
 |};
 
 type PropsType = MappedStatePropsType & MappedDispatchPropsType & OwnPropsType;
@@ -42,26 +45,27 @@ class ScreenSaver extends React.Component<PropsType, StateType> {
     state = {
         screensaverIsOpen: false,
         alreadyopened: false,
+        appReady: false,
     };
 
     timer = null;
 
-    componentDidMount() {
-        const { openFirst } = this.props;
-        const { alreadyopened } = this.state;
+    componentDidUpdate(prevProps) {
+        const {
+            screenSaverState,
+            appClick,
+            screenSaverClose,
+            customCloseFunction,
+            loadingScreenState
+        } = this.props;
 
-        if (openFirst && !alreadyopened) {
+        if (prevProps.loadingScreenState !== loadingScreenState
+            && loadingScreenState === 100) {
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                alreadyopened: true,
-                screensaverIsOpen: true,
+                appReady: true
             });
-        } else {
-            this.timerCount();
         }
-    }
-
-    componentDidUpdate() {
-        const { screenSaverState, appClick, screenSaverClose } = this.props;
 
         if (screenSaverState.appClicked) {
             this.resetTimer();
@@ -69,6 +73,9 @@ class ScreenSaver extends React.Component<PropsType, StateType> {
         }
         if (screenSaverState.screenSaverClose) {
             this.closeScreenSaver();
+            if (customCloseFunction) {
+                customCloseFunction();
+            }
             screenSaverClose(false);
         }
     }
@@ -86,32 +93,60 @@ class ScreenSaver extends React.Component<PropsType, StateType> {
     }
 
     timerCount() {
-        const { inactivityTimer } = this.props;
+        const { inactivityTimer, customOpenFunction } = this.props;
 
-        clearTimeout(this.timer);
         this.timer = setTimeout(() => {
             this.setState(() => ({
                 screensaverIsOpen: true,
             }));
+            customOpenFunction ? customOpenFunction() : null;
         }, inactivityTimer);
     }
 
-    render() {
+    launchScreensaver() {
+        const { openFirst, } = this.props;
+        const { alreadyopened } = this.state;
+
+        if (openFirst && !alreadyopened) {
+            this.setState({
+                alreadyopened: true,
+                screensaverIsOpen: true,
+            });
+        } else {
+            this.timerCount();
+        }
+        this.setState({
+            appReady: false,
+        });
+    }
+
+    renderChildren() {
         const { children } = this.props;
-        const { screensaverIsOpen } = this.state;
 
         return (
             <div style={{
                 width: '100%', height: '100%', zIndex: '999', position: 'absolute'
             }}
             >
-                {screensaverIsOpen && children}
+                {children}
             </div>
+        );
+    }
+
+    render() {
+        const { screensaverIsOpen, appReady } = this.state;
+
+        return (
+            <React.Fragment>
+                {appReady ? this.launchScreensaver() : null}
+                {screensaverIsOpen ? this.renderChildren() : null }
+            </React.Fragment>
         );
     }
 }
 
 const mapStateToProps = (state: AppStateType): MappedStatePropsType => ({
+    loadingScreenState: state.loadingScreen.percentage,
     screenSaverState: state.screenSaver,
 });
 
