@@ -56,7 +56,8 @@ class ScreenSaver extends React.Component<PropsType, StateType> {
             appClick,
             screenSaverClose,
             customCloseFunction,
-            loadingScreenState
+            loadingScreenState,
+            forceOpenScreenSaver
         } = this.props;
 
         if (prevProps.loadingScreenState !== loadingScreenState
@@ -77,6 +78,13 @@ class ScreenSaver extends React.Component<PropsType, StateType> {
                 customCloseFunction();
             }
             screenSaverClose(false);
+        }
+        if(screenSaverState.forceOpen) {
+            if (this.timer) { clearTimeout(this.timer); }
+            this.setState({
+                screensaverIsOpen: true,
+            })
+            forceOpenScreenSaver(false);
         }
     }
 
@@ -156,7 +164,10 @@ const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
     },
     screenSaverClose: (value: ?boolean) => {
         dispatch(ScreenSaverActions.screenSaverClose(value));
-    }
+    },
+    forceOpenScreenSaver: (value: ?boolean) => {
+        dispatch(ScreenSaverActions.forceOpenScreenSaver(value));
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScreenSaver);
