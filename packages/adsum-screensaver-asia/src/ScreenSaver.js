@@ -94,7 +94,7 @@ class ScreenSaver extends React.Component<PropsType, StateType> {
 
     timerCount() {
         const { inactivityTimer, customOpenFunction } = this.props;
-
+        if (this.timer) { clearTimeout(this.timer); }
         this.timer = setTimeout(() => {
             this.setState(() => ({
                 screensaverIsOpen: true,
