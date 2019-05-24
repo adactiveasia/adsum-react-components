@@ -5,7 +5,7 @@ import { APP_CLICK, SCREEN_SAVER_CLOSE, FORCE_OPEN_SCREEN_SAVER } from './Screen
 const initialState = {
     appClicked: false,
     screenSaverClose: false,
-    forceOpen:false 
+    forceOpen: false
 };
 
 export default function (state = initialState, action) {

@@ -19,6 +19,7 @@ type MappedStatePropsType = {|
 type MappedDispatchPropsType = {|
     appClick: (value: ?boolean) => void,
     screenSaverClose: (value: ?boolean) => void,
+    forceOpenScreenSaver: (value: ?boolean) => void,
 |};
 
 type OwnPropsType = {|
@@ -79,11 +80,12 @@ class ScreenSaver extends React.Component<PropsType, StateType> {
             }
             screenSaverClose(false);
         }
-        if(screenSaverState.forceOpen) {
+        if (screenSaverState.forceOpen) {
             if (this.timer) { clearTimeout(this.timer); }
+            // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 screensaverIsOpen: true,
-            })
+            });
             forceOpenScreenSaver(false);
         }
     }

@@ -21,11 +21,16 @@
     First thing to do is to import the action to file which you need the actions, for example app.js
     **import { ScreenSaverActions } from '@adactive/adsum-screensaver-asia';**
 
-    There is 2 redux prop actions that this component have:
+    There is 4 redux prop actions that this component have. Top 2 of that are mandatory to be applied tp make apps works well.
+    
     - Action to close Screen Saver 
     **(ScreenSaverActions.screenSaverClose)**
     - Action to restart the timer (mainly used to on main app div onClick)
     **(ScreenSaverActions.appClick)**
+    - Additional Custom Function you want when Screen Saver Close and Open
+    **(ScreenSaverActions.customCloseFunction)** and **(ScreenSaverActions.customOpenFunction)**
+    - Action to force open Screen Saver usually useful when using screensaver as homepage (can run customopenfunction too)
+    **(ScreenSaverActions.forceOpenScreenSaver)**
 
     Put these to actions on the **mapDispatchToProps**  
     For Example:
@@ -77,18 +82,30 @@
 **openFirst** - a boolean to decide if screensaver open first as the app launched or not
 
 **children** - html elements or components inside <ScreenSaver> tag that will be called after screensaver's timer time out
+
+**customCloseFunction** - a serial custom function to attach when Screen Saver close
+
+**customOpenFunction** - a serial custom function to attach when Screen Saver open
  
 ```javascript
 type OwnPropsType = {|
     inactivityTimer: number,
     openFirst: boolean,
     children: Element<any>
+    customCloseFunction: *,
+    customOpenFunction: *,
 |};
 
 static defaultProps = {
     inactivityTimer: 10000,
     openFirst: true,
 };
+
+type MappedDispatchPropsType = {|
+    appClick: (value: ?boolean) => void,
+    screenSaverClose: (value: ?boolean) => void,
+    forceOpenScreenSaver: (value: ?boolean) => void,
+|};
 ```
 
 

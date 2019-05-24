@@ -15,10 +15,8 @@ type MappedStatePropsType = {|
 |};
 
 type MappedDispatchPropsType = {|
-    setPercentage: (percentage: ?number) => void,
     resetMap: (animated: boolean) => void,
-    changeFloor: (floorId: number) => void,
-    takeMeThere: (poi: *) => void,
+    tmtt: (poi: *) => void,
     destination: (poi: *) => void,
     placeDestination: (poiPlace: *) => void,
     arrivedLabel: (label: *) => void,
