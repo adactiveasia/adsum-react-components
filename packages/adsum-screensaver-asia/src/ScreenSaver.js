@@ -93,7 +93,7 @@ class ScreenSaver extends React.Component<PropsType, StateType> {
             forceOpenScreenSaver(false);
         }
         if (screenSaverState.forceClose) {
-            if (customCloseFunction) { customCloseFunction(); };
+            if (customCloseFunction) { customCloseFunction(); }
             if (this.timer) { clearTimeout(this.timer); }
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({

@@ -1,6 +1,8 @@
 // @flow
 
-import { APP_CLICK, SCREEN_SAVER_CLOSE, FORCE_OPEN_SCREEN_SAVER, FORCE_CLOSE_SCREEN_SAVER } from './ScreenSaverActions';
+import {
+    APP_CLICK, SCREEN_SAVER_CLOSE, FORCE_OPEN_SCREEN_SAVER, FORCE_CLOSE_SCREEN_SAVER
+} from './ScreenSaverActions';
 
 const initialState = {
     appClicked: false,
