@@ -153,7 +153,6 @@ class Modal extends React.Component<PropsType, StateType> {
                         backgroundColor: modalColor,
                     }}
                 >
-                    <div className="modalController">
                         <div className="backButton">
                             {backImage
                             && (
@@ -171,7 +170,6 @@ class Modal extends React.Component<PropsType, StateType> {
                                 alt="modalClose"
                             />
                         </div>
-                    </div>
                     <div className="content">
                         {children}
 
