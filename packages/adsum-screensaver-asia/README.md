@@ -21,7 +21,7 @@
     First thing to do is to import the action to file which you need the actions, for example app.js
     **import { ScreenSaverActions } from '@adactive/adsum-screensaver-asia';**
 
-    There is 4 redux prop actions that this component have. Top 2 of that are mandatory to be applied tp make apps works well.
+    There is 5 redux prop actions that this component have. Top 2 of that are mandatory to be applied tp make apps works well.
     
     - Action to close Screen Saver 
     **(ScreenSaverActions.screenSaverClose)**
@@ -31,6 +31,8 @@
     **(ScreenSaverActions.customCloseFunction)** and **(ScreenSaverActions.customOpenFunction)**
     - Action to force open Screen Saver usually useful when using screensaver as homepage (can run customopenfunction too)
     **(ScreenSaverActions.forceOpenScreenSaver)**
+    - Action to force close Screen Saver (can run customclosefunction too)
+    **(ScreenSaverActions.forceCloseScreenSaver)**
 
     Put these to actions on the **mapDispatchToProps**  
     For Example:
@@ -47,6 +49,7 @@
     You can call function props **appClick(true)** to reset screensaver timer or **screenSaverClose(true)** to close screensaver in that file.
 
 4. Attach ScreenSaver Component
+    **Usually function screensaverclose is placed here**
     for example:
     ```javascript
     <ScreenSaver openFirst={true} inactivityTimer={2000}>**
@@ -86,6 +89,10 @@
 **customCloseFunction** - a serial custom function to attach when Screen Saver close
 
 **customOpenFunction** - a serial custom function to attach when Screen Saver open
+
+**forceOpenScreenSaver** - to activate force open screensaver or not (boolean)
+
+**forceCloseScreenSaver** - to activate force close screensaver or not (boolean)
  
 ```javascript
 type OwnPropsType = {|
@@ -105,6 +112,7 @@ type MappedDispatchPropsType = {|
     appClick: (value: ?boolean) => void,
     screenSaverClose: (value: ?boolean) => void,
     forceOpenScreenSaver: (value: ?boolean) => void,
+    forceCloseScreenSaver: (value: ?boolean) => void,
 |};
 ```
 

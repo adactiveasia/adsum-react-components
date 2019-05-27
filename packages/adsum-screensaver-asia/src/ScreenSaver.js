@@ -20,6 +20,7 @@ type MappedDispatchPropsType = {|
     appClick: (value: ?boolean) => void,
     screenSaverClose: (value: ?boolean) => void,
     forceOpenScreenSaver: (value: ?boolean) => void,
+    forceCloseScreenSaver: (value: ?boolean) => void,
 |};
 
 type OwnPropsType = {|
