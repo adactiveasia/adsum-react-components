@@ -10,7 +10,7 @@
     typically located on your_project_folder/src/rootReducer.js
     - import the reducer : 
     ```import { ModalReducers } from '@adactive/adsum-modal-asia';```
-    - add ScreenSaverReducers on your root reducer, for example:
+    - add ModalReducers on your root reducer, for example:
     ```
         const appState: AppStateType = {
         routing: routerReducer,
@@ -19,50 +19,65 @@
         modal: ModalReducers
         };
     ```
-3. Setting Redux Actions in your Apps
-    First thing to do is to import the action to file which you need the actions, for example app.js
-    ```import { ModalActions } from '@adactive/adsum-modal-asia';```
+3. How to Use it.
 
-    There is 5 redux prop actions that this component have:
+    in App.js
+    - Get Modal Store into your (MapStatetoProps) for example modalState: state.modal
+    - in **render** put for example 
+        ```
+            {modalState.open && modalState.name==="promotion" && <**YOURPROMOTIONMODAL** />}
+        ```
+    - Optionally, import ModalActions and put on your (mapDispatchToProps) in your app.js or your sidebar as a button
+      to open a modal, for example: 
+        in sidebar render
+        ```
+            <div classname="promotionButton" onClick={this.onPromotionClick}></div>
+        ```
+        in sidebar function 
+        ```
+            onPromotionClick = () => {
+                const { openModal, setModal } = this.props;
+                openModal(true);
+                setModal('promotion');
+            }
+        ```
+        in mapDispatchToProps 
+        ```
+            const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
+            openModal: (abc) => {
+                dispatch(ModalActions.openModal(abc));
+            },
+            setModal: (name) => {
+                dispatch(ModalActions.setModal(name));
+            },
+        });
+        ```
 
-    The first action is ***ONLY*** required if a function want to open children of current modal but we need to save the poi for back button. Usually it used on children that want to call grandchildren
-        - Action to save the poi in the structure for nested
-        **(ModalActions.setPoiStructure)**
-    This Following Two Actions is required to show modal
-        - Action to set which modal will appear
-        **(ModalActions.setModal)**
-        - Action to open the modal
-        **(ModalActions.openModal)**
-    The Following Two Actions is required when a function is opening a child of nested modal
-        - Action to set which modal is the parent of will be opened modal
-        **(ModalActions.setModalStructure)**
-        - Action to save the poi of current modal
-        **(ModalActions.setPoi)**
+    There is a nested Modal that we can save both the modal and the data, here's logic and the example
 
-    Put these to actions on the **mapDispatchToProps**  
-    For Example:
-    
-    ```
-    const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
-        openModal: (abc) => {
-            dispatch(ModalActions.openModal(abc));
-        },
-        setModal: (name) => {
-            dispatch(ModalActions.setModal(name));
-        },
-        setModalStructure: (name) => {
-            dispatch(ModalActions.setModalStructure(name));
-        },
-        setPoi: (item) => {
-            dispatch(ModalActions.setPoi(item));
-        },
-        setPoiStructure: (item) => {
-            dispatch(ModalActions.setPoiStructure(item));
-        }
-    });
-    ```
+    - onPromotionClick above we open a PromotionModal that show all promotion categories
+        we just send props openModal(true) and setModal(promotion).
+        Let's say promotion Modal is opened. then there is a list of promotion categories that can be clicked.
+    - onPromotionCategoriesClick we will put:
+        ~ openModal(true)
+        ~ setModal('promotionCategories')
+        ~ setModalStructure('promotion') 
+            **it must filled with the current modal, the purpose is if promotionCategories opened then user want
+            to go back, it will go back to promotion. The last prop is**
+        ~ setPoi(**itemThatClicked**)
+            **this is useful to carry the item data, so in promotionCategories Modal we only call ModalState.poi
+        Let's say promotionCategories Modal is opened, then there is a list of items from promotion categories, let's say food promotion categories display many items that can be clicked. Let's assume user want to see KFC promotion then we have onPromotionDetailClick function
+    - it will contain:
+        ~ openModal (true)
+        ~ setModal('promotionDetail')
+        ~ setModalStructure(promotionCategories)
+        ~ setPoi(**itemThatClicked**)
+        like onPromotionCategoriesClick, but now we need to save a data here.
+        So, on promotion we display ALL categories, and then user pick a category (FOOD), this picked FOOD category we need to save. so when promotionDetail opened and user click Back, then it will back to FOOD category
+        To do it, we need to save it using setPoiStructure. its function is same with setModalStructure but for DATA
+        ~ setPoiStructure(**currentItem**)
 
-4. Attach ScreenSaver Component
+4. Attach Modal Component
     for example:
     ```javascript
     <Modal  
@@ -85,7 +100,7 @@
             left: '200px',
         }}
     >
-        <div style={{backgroundColor: "pink", fontSize: "36px"}}>MODAL THREE</div>
+        <div style={{backgroundColor: "pink", fontSize: "36px"}}>PROMOTION MODAL</div>
     </Modal>
 ```
 
