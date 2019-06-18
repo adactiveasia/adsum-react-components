@@ -65,6 +65,8 @@ class AdsumCarousel extends React.Component<PropsType> {
     }
 
     componentDidMount() {
+        const { autoSlide, autoSlideInterval, medias } = this.props;
+
         if (this._videoPlayers[0]) {
             this.checkTimeOut();
 
@@ -74,6 +76,12 @@ class AdsumCarousel extends React.Component<PropsType> {
             const firstconvertedVideoDuration = (parseInt(firstVideoProp.duration) + 1) * 1000;
 
             this.makeItLoop(0, firstconvertedVideoDuration);
+        } 
+        else {
+            if(autoSlide) {
+                const newInterval = medias[0].interval ? medias[0].interval : autoSlideInterval;
+                this.makeItLoop(0, newInterval)
+            }
         }
     }
 
@@ -112,7 +120,7 @@ class AdsumCarousel extends React.Component<PropsType> {
      * @param id
      */
     slideDidChange(id: number | string) {
-        const { isOpen, autoSlideInterval } = this.props;
+        const { isOpen, autoSlideInterval, medias } = this.props;
 
         if (!isOpen) return;
 
@@ -126,8 +134,9 @@ class AdsumCarousel extends React.Component<PropsType> {
 
             this.makeItLoop(id, convertedVideoDuration);
         } else {
+            const newInterval = medias[id].interval ? medias[0].interval : autoSlideInterval;
             this.checkTimeOut();
-            this.makeItLoop(id, autoSlideInterval);
+            this.makeItLoop(id, newInterval);
         }
     }
 
@@ -146,7 +155,6 @@ class AdsumCarousel extends React.Component<PropsType> {
 
         const parentStyle = style || null;
         const ret = [];
-
         medias.forEach((media: MediaType, index: number) => {
             if (media.file.file_type === 'video/mp4' || media.file.file_type === 'video/x-m4v') {
                 const component = (
@@ -204,7 +212,7 @@ class AdsumCarousel extends React.Component<PropsType> {
         const {
             isOpen, carouselOptions, style,
         } = this.props;
-
+        
         if (!isOpen) return null;
 
         return (
