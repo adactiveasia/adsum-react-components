@@ -134,7 +134,7 @@ class AdsumCarousel extends React.Component<PropsType> {
 
             this.makeItLoop(id, convertedVideoDuration);
         } else {
-            const newInterval = medias[id].interval ? medias[i].interval : autoSlideInterval;
+            const newInterval = medias[id].interval ? medias[id].interval : autoSlideInterval;
             this.checkTimeOut();
             this.makeItLoop(id, newInterval);
         }
