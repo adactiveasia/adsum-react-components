@@ -14,9 +14,9 @@ export const RESET_ARRIVAL_LABEL = 'RESET_ARRIVAL_LABEL';
 export const RESET_INTERCHANGE_LABEL = 'RESET_INTERCHANGE_LABEL';
 export const RESET_MAP_AND_WAY_FINDING = 'RESET_MAP_AND_WAY_FINDING';
 
-export function tmtt(poi, poiPlace) {
+export function tmtt(poi, poiPlace, pmr) {
     if (poi && poi.placeId) {
-        store.dispatch(WayfindingActions.goToPlaceAction(poi.placeId));
+        store.dispatch(WayfindingActions.goToPlaceAction(poi.placeId, pmr ? pmr : false));
     }
     return (dispatch) => {
         dispatch({
