@@ -1,6 +1,15 @@
 .modalContainer {
     position: absolute;
+    display: grid;
+    grid-template-areas: 
+    'controller'
+    'content';
     z-index: 888;
+
+    .modalController {
+        grid-area: controller;
+        top: 0;
+        left: 0;
 
         .backButton{
             position: absolute;
@@ -13,9 +22,10 @@
             top: 0;
             right: 0;
         }
+    }
 
     .content {
-        height: 100%;
+        grid-area: content;
     }
 }
 

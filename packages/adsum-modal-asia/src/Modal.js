@@ -111,6 +111,7 @@ class Modal extends React.Component<PropsType, StateType> {
             removeAllModalStructure,
             removeAllPoiStructure,
             customCloseFunction,
+            setPoi,
         } = this.props;
 
         if (customCloseFunction) {
@@ -118,6 +119,7 @@ class Modal extends React.Component<PropsType, StateType> {
         }
 
         openModal(false);
+        setPoi({});
         removeAllModalStructure();
         removeAllPoiStructure();
     }
@@ -153,8 +155,9 @@ class Modal extends React.Component<PropsType, StateType> {
                         backgroundColor: modalColor,
                     }}
                 >
-                    <div className="backButton">
-                        {backImage
+                    <div className="modalController">
+                        <div className="backButton">
+                            {backImage
                             && (
                                 <img
                                     src={backImage}
@@ -162,13 +165,14 @@ class Modal extends React.Component<PropsType, StateType> {
                                     alt="modalBack"
                                 />
                             )}
-                    </div>
-                    <div className="closeButton">
-                        <img
-                            src={closeImage || defaultCloseImage}
-                            onClick={this.handleClose}
-                            alt="modalClose"
-                        />
+                        </div>
+                        <div className="closeButton">
+                            <img
+                                src={closeImage || defaultCloseImage}
+                                onClick={this.handleClose}
+                                alt="modalClose"
+                            />
+                        </div>
                     </div>
                     <div className="content">
                         {children}
