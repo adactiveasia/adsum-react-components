@@ -60,6 +60,7 @@ static defaultProps = {
     autoSlideInterval: 10000,
 };
 ```
+**TO MAKE DYNAMIC INTERVAL** -> media send to this carousel via medias should have interval field. If a media have this, then this media will have own interval. If haven't, the media will follow the general interval set (autoslideinterval)
 
 **isOpen** -> To show or hide carousel
 
