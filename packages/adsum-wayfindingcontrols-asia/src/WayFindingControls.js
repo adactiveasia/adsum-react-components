@@ -102,7 +102,6 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
         // While Drawing
 
         if (!wayfindingState.drawing
-            && prevProps.wayfindingState.drawing
             && wayFindingControlsState.takeMeThere
             && wayFindingControlsState.takeMeThere[0]
             && wayFindingControlsState.takeMeThere[0].id) {
@@ -123,19 +122,19 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
             }
 
             // If The Current Index Of Wayfinder is Even (Between Add Interchange(IC) Label or Add Destination Label)
-            if (wayfindingState.currentSectionIndex % 2 === 0) {
+            if (wayfindingState.currentSectionIndex % 2 === 0 && prevProps.wayfindingState.drawing) {
                 // If Interchange Label Exist, Delete it
                 if (wayFindingControlsState.interchangeLabel.length > 0) {
                     this.deleteInterchangeLabel();
                 }
 
                 // If It is Destination Label
-                if (prevProps.wayfindingState.drawing !== wayfindingState.drawing
+                if (prevProps.wayfindingState.drawing !== wayfindingState.drawing && prevProps.wayfindingState.drawing
                     && wayfindingState.currentSectionIndex === (pathSection.length - 1)) {
                     this.addArrivalLabel(finalLabelText, pathSection);
 
                 // If it is Interchange Label(s)
-                } else if (wayfindingState.currentSectionIndex !== (pathSection.length - 1)) {
+                } else if (wayfindingState.currentSectionIndex !== (pathSection.length - 1) && prevProps.wayfindingState.drawing) {
                     let icDestinationFloorPosition;
                     if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
                         icDestinationFloorPosition = 'Up ';
@@ -233,7 +232,9 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
         if (!findDuplicateIcLabel) {
             interchangeLabel(changeFloorLabelText);
         }
-        awm.objectManager.addLabelOnAdsumLocation(changeFloorLabel, pathSection[wayfindingState.currentSectionIndex].to);
+        if (pathSection && pathSection[wayfindingState.currentSectionIndex] && pathSection[wayfindingState.currentSectionIndex].to){
+            awm.objectManager.addLabelOnAdsumLocation(changeFloorLabel, pathSection[wayfindingState.currentSectionIndex].to);
+        }
     }
 
     resetAllWayFinding() {
