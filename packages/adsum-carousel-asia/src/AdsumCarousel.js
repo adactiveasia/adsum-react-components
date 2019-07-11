@@ -76,12 +76,9 @@ class AdsumCarousel extends React.Component<PropsType> {
             const firstconvertedVideoDuration = (parseInt(firstVideoProp.duration) + 1) * 1000;
 
             this.makeItLoop(0, firstconvertedVideoDuration);
-        } 
-        else {
-            if(autoSlide) {
-                const newInterval = medias[0].interval ? medias[0].interval : autoSlideInterval;
-                this.makeItLoop(0, newInterval)
-            }
+        } else if (autoSlide) {
+            const newInterval = medias[0].interval ? medias[0].interval : autoSlideInterval;
+            this.makeItLoop(0, newInterval);
         }
     }
 
@@ -212,7 +209,7 @@ class AdsumCarousel extends React.Component<PropsType> {
         const {
             isOpen, carouselOptions, style,
         } = this.props;
-        
+
         if (!isOpen) return null;
 
         return (

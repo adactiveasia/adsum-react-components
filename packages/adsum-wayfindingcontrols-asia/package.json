@@ -1,10 +1,10 @@
 {
   "name": "@adactive/adsum-wayfindingcontrols-asia",
-  "version": "2.5.6",
+  "version": "2.5.7",
   "description": "Adsum Way Finding Controls Component",
   "main": "index.js",
   "author": "Erlanda Zakaria <erlandazakaria@gmail.com>",
-  "license": "UNLISENCED",
+  "license": "UNLICENSED",
   "readmeFilename": "README.md",
   "dependencies": {
     "chalk": "^1.1.3",

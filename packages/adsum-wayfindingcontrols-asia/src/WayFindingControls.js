@@ -43,6 +43,7 @@ type OwnPropsType = {|
     icLabelText: string,
     arrivalLabelStyle: object,
     interchangeLabelStyle: object,
+    reverseFloor: Boolean,
 |};
 
 type PropsType = MappedStatePropsType & MappedDispatchPropsType & OwnPropsType;
@@ -81,6 +82,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                 size: 4,
             },
         },
+        reverseFloor: false,
     }
 
     componentDidUpdate(prevProps) {
@@ -97,6 +99,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
             resetMap,
             resetSelection,
             onRemovePath,
+            reverseFloor,
         } = this.props;
 
         // While Drawing
@@ -136,7 +139,15 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                 // If it is Interchange Label(s)
                 } else if (wayfindingState.currentSectionIndex !== (pathSection.length - 1) && prevProps.wayfindingState.drawing) {
                     let icDestinationFloorPosition;
-                    if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
+                    if (reverseFloor) {
+                        if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
+                            icDestinationFloorPosition = 'Down ';
+                        } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
+                            icDestinationFloorPosition = 'Up ';
+                        } else {
+                            icDestinationFloorPosition = 'Straight ';
+                        }
+                    } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
                         icDestinationFloorPosition = 'Up ';
                     } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
                         icDestinationFloorPosition = 'Down ';
@@ -232,7 +243,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
         if (!findDuplicateIcLabel) {
             interchangeLabel(changeFloorLabelText);
         }
-        if (pathSection && pathSection[wayfindingState.currentSectionIndex] && pathSection[wayfindingState.currentSectionIndex].to){
+        if (pathSection && pathSection[wayfindingState.currentSectionIndex] && pathSection[wayfindingState.currentSectionIndex].to) {
             awm.objectManager.addLabelOnAdsumLocation(changeFloorLabel, pathSection[wayfindingState.currentSectionIndex].to);
         }
     }

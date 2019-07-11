@@ -17,7 +17,6 @@
     "jsdoc": "^3.4.0"
   },
   "dependencies": {
-    "adsum-client-api": "git+https://d946d5287ebdee276a584913f00515f6cdb331fa:x-oauth-basic@github.com/AdactiveSAS/adsum-client-api.git#v1.7.0",
     "co": "^4.6.0",
     "nodemailer": "^4.1.0"
   }

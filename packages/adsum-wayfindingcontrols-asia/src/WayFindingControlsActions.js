@@ -16,7 +16,7 @@ export const RESET_MAP_AND_WAY_FINDING = 'RESET_MAP_AND_WAY_FINDING';
 
 export function tmtt(poi, poiPlace, pmr) {
     if (poi && poi.placeId) {
-        store.dispatch(WayfindingActions.goToPlaceAction(poi.placeId, pmr ? pmr : false));
+        store.dispatch(WayfindingActions.goToPlaceAction(poi.placeId, pmr || false));
     }
     return (dispatch) => {
         dispatch({
