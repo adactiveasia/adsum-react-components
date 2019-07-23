@@ -21,6 +21,8 @@ export function tmtt(poi, poiPlace, pmr) {
     }
     if (poiPlace && pmr) {
         store.dispatch(this.inputPMR(pmr));
+    } else {
+        store.dispatch(this.inputPMR(false));
     }
     return (dispatch) => {
         dispatch({
