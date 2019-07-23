@@ -6,6 +6,7 @@ import { WayfindingActions } from '@adactive/arc-map';
 import store from '../../../../src/store/index';
 
 export const tmt = 'tmt';
+export const pmr = 'pmr';
 export const DESTINATION = 'DESTINATION';
 export const PLACE_DESTINATION = 'PLACE_DESTINATION';
 export const ARRIVED_LABEL = 'ARRIVED_LABEL';
@@ -18,10 +19,22 @@ export function tmtt(poi, poiPlace, pmr) {
     if (poi && poi.placeId) {
         store.dispatch(WayfindingActions.goToPlaceAction(poi.placeId, pmr || false));
     }
+    if (poiPlace && pmr) {
+        store.dispatch(this.inputPMR(pmr));
+    }
     return (dispatch) => {
         dispatch({
             type: tmt,
             payload: poiPlace
+        });
+    };
+}
+
+export function inputPMR(value) {
+    return (dispatch) => {
+        dispatch({
+            type: pmr,
+            payload: value
         });
     };
 }

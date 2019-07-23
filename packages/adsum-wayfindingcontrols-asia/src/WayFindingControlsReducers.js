@@ -2,6 +2,7 @@
 
 import {
     tmt,
+    pmr,
     DESTINATION,
     PLACE_DESTINATION,
     ARRIVED_LABEL,
@@ -13,6 +14,7 @@ import {
 
 const initialState = {
     takeMeThere: [],
+    pmr: false,
     destination: null,
     placeDestination: null,
     arrivedLabel: [],
@@ -30,6 +32,10 @@ export default function (state = initialState, action) {
     case tmt:
         return Object.assign({}, state, {
             takeMeThere: action.payload
+        });
+    case pmr:
+        return Object.assign({}, state, {
+            pmr: action.payload
         });
     case DESTINATION:
         return Object.assign({}, state, {
