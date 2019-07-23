@@ -115,7 +115,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
             const pathSection = path.getPathSections(true);
             const poiDestination = ACA.getPoisFromPlace(wayFindingControlsState.takeMeThere[0].id);
             const destinationFloor = pathSection[(pathSection.length - 1)].ground;
-            const finalLabelText = destinationLabelText + poiDestination[0].name;
+            const finalLabelText = destinationLabelText + poiDestination[0].name + ' ';
 
             // Store Destination Poi and Destination Place
 
@@ -165,7 +165,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                         }
                     }
                     const icDestinationFloor = pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.name;
-                    const changeFloorLabelText = icLabelText + icDestinationFloorPosition + icDestinationFloor.replace('_', ' ');
+                    const changeFloorLabelText = icLabelText + icDestinationFloorPosition + icDestinationFloor.replace('_', ' ') + ' ';
 
                     this.addInterchangeLabel(changeFloorLabelText, pathSection);
                 }
