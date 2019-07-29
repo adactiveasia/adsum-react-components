@@ -113,9 +113,9 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
 
             const path = getPath(wayFindingControlsState.takeMeThere[0].id, wayFindingControlsState.pmr);
             const pathSection = path.getPathSections(true);
-            const poiDestination = ACA.getPoisFromPlace(wayFindingControlsState.takeMeThere[0].id);
+            const poiDestination = wayFindingControlsState.takeMeThere[0].poiName ? wayFindingControlsState.takeMeThere[0].poiName : null;
             const destinationFloor = pathSection[(pathSection.length - 1)].ground;
-            const finalLabelText = destinationLabelText + poiDestination[0].name + ' ';
+            const finalLabelText = destinationLabelText + poiDestination + ' ';
 
             // Store Destination Poi and Destination Place
 

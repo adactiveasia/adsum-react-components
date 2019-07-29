@@ -16,8 +16,11 @@ export const RESET_INTERCHANGE_LABEL = 'RESET_INTERCHANGE_LABEL';
 export const RESET_MAP_AND_WAY_FINDING = 'RESET_MAP_AND_WAY_FINDING';
 
 export function tmtt(poi, poiPlace, pmr) {
+    let poiPlaceFix
     if (poi && poi.placeId) {
         store.dispatch(WayfindingActions.goToPlaceAction(poi.placeId, pmr || false));
+        poiPlaceFix = poiPlace;
+        poiPlaceFix[0] ? poiPlaceFix[0].poiName = poi.name : poiPlaceFix.poiName = poi.name;
     }
     if (poiPlace && pmr) {
         store.dispatch(this.inputPMR(pmr));
@@ -27,7 +30,7 @@ export function tmtt(poi, poiPlace, pmr) {
     return (dispatch) => {
         dispatch({
             type: tmt,
-            payload: poiPlace
+            payload: poiPlaceFix
         });
     };
 }
