@@ -3,7 +3,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { LabelTextObject } from '@adactive/adsum-web-map';
-import ACA from '@adactive/adsum-utils/services/ClientAPI';
 
 import { MainActions, WayfindingActions, SelectionActions } from '@adactive/arc-map';
 import { WayFindingControlsActions } from '..';
@@ -44,6 +43,7 @@ type OwnPropsType = {|
     arrivalLabelStyle: object,
     interchangeLabelStyle: object,
     reverseFloor: Boolean,
+    pmrNaming: Boolean,
 |};
 
 type PropsType = MappedStatePropsType & MappedDispatchPropsType & OwnPropsType;
@@ -115,7 +115,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
             const pathSection = path.getPathSections(true);
             const poiDestination = wayFindingControlsState.takeMeThere[0].poiName ? wayFindingControlsState.takeMeThere[0].poiName : null;
             const destinationFloor = pathSection[(pathSection.length - 1)].ground;
-            const finalLabelText = destinationLabelText + poiDestination + ' ';
+            const finalLabelText = `${destinationLabelText + poiDestination} `;
 
             // Store Destination Poi and Destination Place
 
@@ -148,24 +148,21 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                         } else {
                             icDestinationFloorPosition = 'Straight ';
                         }
-                    }
-                    else if (pmrNaming) {
-                        if(wayFindingControlsState.pmr) {
+                    } else if (pmrNaming) {
+                        if (wayFindingControlsState.pmr) {
                             icDestinationFloorPosition = 'Lift to ';
                         } else {
                             icDestinationFloorPosition = 'Escalator to ';
                         }
+                    } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
+                        icDestinationFloorPosition = 'Up ';
+                    } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
+                        icDestinationFloorPosition = 'Down ';
                     } else {
-                        if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
-                            icDestinationFloorPosition = 'Up ';
-                        } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
-                            icDestinationFloorPosition = 'Down ';
-                        } else {
-                            icDestinationFloorPosition = 'Straight ';
-                        }
+                        icDestinationFloorPosition = 'Straight ';
                     }
                     const icDestinationFloor = pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.name;
-                    const changeFloorLabelText = icLabelText + icDestinationFloorPosition + icDestinationFloor.replace('_', ' ') + ' ';
+                    const changeFloorLabelText = `${icLabelText + icDestinationFloorPosition + icDestinationFloor.replace('_', ' ')} `;
 
                     this.addInterchangeLabel(changeFloorLabelText, pathSection);
                 }

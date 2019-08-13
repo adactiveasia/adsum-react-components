@@ -1,7 +1,7 @@
 const ACA = require("adsum-client-api");
 const AbstractPattern = require("./AbstractPattern");
-const OrderedList = require('./structure/OrderedList');
-const List = require('./structure/List');
+const OrderedList = require("./structure/OrderedList");
+const List = require("./structure/List");
 
 /**
  *
@@ -33,7 +33,7 @@ class PlaylistPattern extends AbstractPattern {
             "parameters",
             "signature",
             "medias",
-            "tags",
+            "tags"
         ];
     }
 

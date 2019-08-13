@@ -40,11 +40,11 @@ class AbstractClientImporter {
      * @param html
      * @returns {{from: string, to: string, subject: *, html: *}}
      */
-    getEmailsOptions(title, html){
+    getEmailsOptions(title, html) {
         const reportEmails = typeof this.getReportEmails === "function" ? this.getReportEmails() : this.constructor.getReportEmails();
 
         return {
-            from: '"Importer " <support@adactive.com>', // sender address
+            from: "\"Importer \" <support@adactive.com>", // sender address
             to: reportEmails.join(", "), // list of receivers
             subject: title, // Subject line
             html: html // html body
@@ -55,15 +55,15 @@ class AbstractClientImporter {
      *
      * @returns {{service: string, auth: {user: string, pass: string}}}
      */
-    getEmailsTransportOptions(){
+    getEmailsTransportOptions() {
         return {
-            host: 'smtp.gmail.com',
+            host: "smtp.gmail.com",
             port: 465,
             secure: true,
             auth: {
-                user: 'support@adactive.com',
-                pass: 'showroom75'
-            },
+                user: "support@adactive.com",
+                pass: "showroom75"
+            }
 
         };
     }
@@ -78,6 +78,7 @@ class AbstractClientImporter {
     load() {
         throw new Error("Client importer must implements load method");
     }
+
     /**
      * Methods is dedicated to be used into load() implementation to save a client data formatted
      * into our pattern schema.

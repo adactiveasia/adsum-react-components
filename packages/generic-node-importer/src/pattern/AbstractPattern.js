@@ -40,9 +40,9 @@ class AbstractPattern {
      */
     constructor(safe = false) {
         if (!safe) {
-            console.warn('Creating a pattern by your own is not safe use AbstractClientImporter.getOrCreatePattern');
+            console.warn("Creating a pattern by your own is not safe use AbstractClientImporter.getOrCreatePattern");
         }
-        
+
         this._signature = null;
     }
 

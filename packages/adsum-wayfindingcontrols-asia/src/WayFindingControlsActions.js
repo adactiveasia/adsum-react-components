@@ -6,7 +6,7 @@ import { WayfindingActions } from '@adactive/arc-map';
 import store from '../../../../src/store/index';
 
 export const tmt = 'tmt';
-export const pmr = 'pmr';
+export const PMR = 'pmr';
 export const DESTINATION = 'DESTINATION';
 export const PLACE_DESTINATION = 'PLACE_DESTINATION';
 export const ARRIVED_LABEL = 'ARRIVED_LABEL';
@@ -16,7 +16,7 @@ export const RESET_INTERCHANGE_LABEL = 'RESET_INTERCHANGE_LABEL';
 export const RESET_MAP_AND_WAY_FINDING = 'RESET_MAP_AND_WAY_FINDING';
 
 export function tmtt(poi, poiPlace, pmr) {
-    let poiPlaceFix
+    let poiPlaceFix;
     if (poi && poi.placeId) {
         store.dispatch(WayfindingActions.goToPlaceAction(poi.placeId, pmr || false));
         poiPlaceFix = poiPlace;
@@ -38,7 +38,7 @@ export function tmtt(poi, poiPlace, pmr) {
 export function inputPMR(value) {
     return (dispatch) => {
         dispatch({
-            type: pmr,
+            type: PMR,
             payload: value
         });
     };

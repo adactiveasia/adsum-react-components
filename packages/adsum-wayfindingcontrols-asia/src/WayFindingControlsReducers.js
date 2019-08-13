@@ -2,7 +2,7 @@
 
 import {
     tmt,
-    pmr,
+    PMR,
     DESTINATION,
     PLACE_DESTINATION,
     ARRIVED_LABEL,
@@ -33,7 +33,7 @@ export default function (state = initialState, action) {
         return Object.assign({}, state, {
             takeMeThere: action.payload
         });
-    case pmr:
+    case PMR:
         return Object.assign({}, state, {
             pmr: action.payload
         });

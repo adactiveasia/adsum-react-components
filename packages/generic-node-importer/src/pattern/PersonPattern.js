@@ -1,8 +1,8 @@
 const ACA = require("adsum-client-api");
 const AbstractPattern = require("./AbstractPattern");
-const OrderedList = require('./structure/OrderedList');
-const List = require('./structure/List');
-const OrderedFileList = require('./structure/OrderedFileList');
+const OrderedList = require("./structure/OrderedList");
+const List = require("./structure/List");
+const OrderedFileList = require("./structure/OrderedFileList");
 
 /**
  *
@@ -46,7 +46,7 @@ class PersonPattern extends AbstractPattern {
             "first_name",
             "last_name",
             "desk_phone",
-            "mobile_phone",
+            "mobile_phone"
 
         ];
     }

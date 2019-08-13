@@ -1,15 +1,15 @@
-const ACA = require('adsum-client-api');
-const co = require('co');
+const ACA = require("adsum-client-api");
+const co = require("co");
 const fs = require("fs");
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 const process = require("process");
 
 const AbstractClientImporter = require("./AbstractClientImporter");
-const AbstractPattern = require('./pattern/AbstractPattern');
-const List = require('./pattern/structure/List');
-const File = require('./pattern/structure/File');
-const OrderedList = require('./pattern/structure/OrderedList');
-const OrderedFileList = require('./pattern/structure/OrderedFileList');
+const AbstractPattern = require("./pattern/AbstractPattern");
+const List = require("./pattern/structure/List");
+const File = require("./pattern/structure/File");
+const OrderedList = require("./pattern/structure/OrderedList");
+const OrderedFileList = require("./pattern/structure/OrderedFileList");
 
 /**
  * @readonly
@@ -17,15 +17,15 @@ const OrderedFileList = require('./pattern/structure/OrderedFileList');
  */
 const STATUS = {
     /** An entity is marked as ignored if it's not involved in import process (the entity has a null signature) */
-    IGNORED: 'IGNORED',
+    IGNORED: "IGNORED",
     /** An entity is marked as kept if it's remain untouched */
-    KEPT: 'KEPT',
+    KEPT: "KEPT",
     /** An entity is marked as created if it's a new entity */
-    CREATED: 'CREATED',
+    CREATED: "CREATED",
     /** An entity is marked as kept if it's has been updated */
-    UPDATED: 'UPDATED',
+    UPDATED: "UPDATED",
     /** An entity is marked as kept if it's has been removed */
-    REMOVED: 'REMOVED',
+    REMOVED: "REMOVED"
 };
 
 /**
@@ -135,7 +135,7 @@ class GenericImporter {
 
             // Finalise
             yield self._finish();
-        }).catch(function (e) {
+        }).catch((e) => {
             console.error(e);
         });
     }
@@ -156,7 +156,8 @@ class GenericImporter {
             try {
                 // Load the client importer data
                 yield self._clientImporter.load();
-            } catch (err) {
+            }
+            catch (err) {
                 console.error(err.message);
                 console.log(err);
 
@@ -165,7 +166,8 @@ class GenericImporter {
 
             try {
                 yield self._em.load();
-            } catch (err) {
+            }
+            catch (err) {
                 console.error(err.message);
                 console.log(err);
 
@@ -202,7 +204,8 @@ class GenericImporter {
 
                         // Assume Kept status as there is a signature
                         self._changes.get(repositoryName).set(entity.id, STATUS.KEPT);
-                    } else {
+                    }
+                    else {
                         // Assume Kept status as there isn't a signature
                         self._changes.get(repositoryName).set(entity.id, STATUS.IGNORED);
                     }
@@ -293,7 +296,7 @@ class GenericImporter {
         let promise = null;
         const files = Array.from(File.getAll());
 
-        if(files.length === 0){
+        if (files.length === 0) {
             return Promise.resolve();
         }
 
@@ -302,18 +305,17 @@ class GenericImporter {
 
         console.log(`Fetching content hashes of ${total} files`);
 
-        const chunks = [], size = 10;
+        const chunks = [],
+            size = 10;
 
-        while (files.length > 0)
-            chunks.push(files.splice(0, size));
+        while (files.length > 0) chunks.push(files.splice(0, size));
 
         for (const chunk of chunks) {
-            if(promise === null){
+            if (promise === null) {
                 promise = this._fetchUriContentHashesBunch(chunk);
-            }else{
-                promise = promise.then(() => {
-                    return this._fetchUriContentHashesBunch(chunk);
-                });
+            }
+            else {
+                promise = promise.then(() => this._fetchUriContentHashesBunch(chunk));
             }
 
             promise = promise.then(() => {
@@ -327,35 +329,35 @@ class GenericImporter {
         });
     }
 
-    _fetchUriContentHashesBunch(files){
+    _fetchUriContentHashesBunch(files) {
         const promises = [];
 
         for (const file of files) {
             let promise = ACA.Request.getUriContentHash(file.uri).then((contentHash) => {
                 this._uriToContentHash.set(file.uri, contentHash);
-            }).catch(e => {
+            }).catch((e) => {
 
                 // console.error(`Unable to fetch file ${file.uri}`);
                 promise = ACA.Request.getUriContentHash(file.uri).then((contentHash) => {
                     this._uriToContentHash.set(file.uri, contentHash);
-                }).catch(e => {
+                }).catch((e) => {
                     // console.error(`Unable to fetch file ${file.uri}`);
                     promise = ACA.Request.getUriContentHash(file.uri).then((contentHash) => {
                         this._uriToContentHash.set(file.uri, contentHash);
-                    }).catch(e => {
+                    }).catch((e) => {
                         promise = ACA.Request.getUriContentHash(file.uri).then((contentHash) => {
                             this._uriToContentHash.set(file.uri, contentHash);
-                        }).catch(e => {
+                        }).catch((e) => {
                             promise = ACA.Request.getUriContentHash(file.uri).then((contentHash) => {
                                 this._uriToContentHash.set(file.uri, contentHash);
-                            }).catch(e => {
-                            console.error(`Unable to fetch file ${file.uri}`);
-                            this._uriToContentHash.set(file.uri, null);
-                            })
-                        })
-                    })
+                            }).catch((e) => {
+                                console.error(`Unable to fetch file ${file.uri}`);
+                                this._uriToContentHash.set(file.uri, null);
+                            });
+                        });
+                    });
                 });
-               
+
             });
 
             promises.push(promise);
@@ -411,20 +413,22 @@ class GenericImporter {
         if (entity === null) {
             // Not found: Create a new one
             entity = new (pattern.constructor._getEntityConstructor())();
-        } else if (entity.constructor !== pattern.constructor._getEntityConstructor()) {
+        }
+        else if (entity.constructor !== pattern.constructor._getEntityConstructor()) {
             // Type changed
             const data = entity.toJSON();
             delete data.type;
 
             // Force reset signature to prevent unique entity error
             const previous = entity.clone();
-            if(previous.constructor.keys.includes("signature")){
+            if (previous.constructor.keys.includes("signature")) {
                 previous.signature = null;
                 this._em.getRepository(repositoryName).persist(previous);
             }
 
             entity = new (pattern.constructor._getEntityConstructor())(data);
-        } else {
+        }
+        else {
             // Found: used to update
             entity = entity.clone();
         }
@@ -514,19 +518,19 @@ class GenericImporter {
         }
 
         switch (true) {
-            case (value instanceof AbstractPattern):
+            case value instanceof AbstractPattern:
                 this._updatePatternKey(entity, key, value);
                 break;
-            case (value instanceof List):
+            case value instanceof List:
                 this._updateListKey(entity, key, value);
                 break;
-            case (value instanceof OrderedList):
+            case value instanceof OrderedList:
                 this._updateOrderedListKey(entity, key, value);
                 break;
-            case (value instanceof OrderedFileList):
+            case value instanceof OrderedFileList:
                 this._updateOrderedFileListKey(entity, key, value);
                 break;
-            case (value instanceof File):
+            case value instanceof File:
                 this._updateFileKey(entity, key, value);
                 break;
             default:
@@ -646,7 +650,8 @@ class GenericImporter {
             if (initialContentHashes.has(contentHash)) {
                 // If the imported content hash from Client importer is in original, skip uri update
                 file = initialContentHashes.get(contentHash);
-            } else {
+            }
+            else {
                 // Else create a new file
                 file = new ACA.File();
                 file.uri = p.uri;
@@ -685,7 +690,8 @@ class GenericImporter {
         if (entity[key].is(null)) {
             // If the original entity wasn't linked to a file, create a new one
             file = new ACA.File();
-        } else {
+        }
+        else {
             // Else use the already saved entity
             const reference = entity[key];
             file = this._em.getRepository(reference.classOf).get(reference).clone();
@@ -766,7 +772,7 @@ class GenericImporter {
 
         // Format the report into HTML format
         const now = new Date();
-        const historyDirectory = './history';
+        const historyDirectory = "./history";
         const filename = `${historyDirectory}/${now.toISOString()}.html`;
 
         if (!fs.existsSync(historyDirectory)) {
@@ -784,10 +790,10 @@ class GenericImporter {
         console.log(`Report written into ${filename}`);
 
         console.log("Sending report via mail");
-        let transporter = nodemailer.createTransport(this._clientImporter.getEmailsTransportOptions());
+        const transporter = nodemailer.createTransport(this._clientImporter.getEmailsTransportOptions());
 
         // setup email data with unicode symbols
-        let mailOptions = this._clientImporter.getEmailsOptions(title, html);
+        const mailOptions = this._clientImporter.getEmailsOptions(title, html);
 
         return new Promise((resolve, reject) => {
             transporter.sendMail(mailOptions, (error, info) => {
@@ -799,7 +805,7 @@ class GenericImporter {
                     return;
                 }
 
-                console.log('Report %s sent: %s', info.messageId, info.response);
+                console.log("Report %s sent: %s", info.messageId, info.response);
                 resolve();
             });
         });
@@ -857,11 +863,11 @@ class GenericImporter {
                 [STATUS.CREATED]: [],
                 [STATUS.REMOVED]: [],
                 [STATUS.KEPT]: [],
-                [STATUS.IGNORED]: [],
+                [STATUS.IGNORED]: []
             };
 
             const details = {
-                [STATUS.UPDATED]: {},
+                [STATUS.UPDATED]: {}
             };
 
             const ids = this._changes.get(repositoryName).keys();
@@ -929,7 +935,8 @@ class GenericImporter {
                             );
 
                             details[status][currentEntity.id] = diffs;
-                        } else {
+                        }
+                        else {
                             // if no diff detected, mark the entity as kept
                             summary[STATUS.KEPT].push(
                                 {
@@ -988,9 +995,10 @@ class GenericImporter {
                             from: fromUri,
                             to: toUri
                         }
-                    )
+                    );
                 }
-            } else if (fromValue instanceof ACA.OrderedCollection && fromValue.classOf === "File") {
+            }
+            else if (fromValue instanceof ACA.OrderedCollection && fromValue.classOf === "File") {
                 // Special case of File OrderedCollection, use uri as comparison
 
                 const fromUris = [];
@@ -998,9 +1006,7 @@ class GenericImporter {
                     fromUris.push(this._initialEntities.get("File").get(id).uri);
                 }
 
-                const toUris = this._em.getRepository("File").getList(toValue).map((file) => {
-                    return file.uri;
-                });
+                const toUris = this._em.getRepository("File").getList(toValue).map(file => file.uri);
 
                 // Sort to prevent order change making false positive
                 fromUris.sort();
@@ -1013,9 +1019,10 @@ class GenericImporter {
                             from: JSON.stringify(fromUris),
                             to: JSON.stringify(toUris)
                         }
-                    )
+                    );
                 }
-            } else if (fromValue instanceof ACA.Reference && this._initialEntities.has(fromValue.classOf)) {
+            }
+            else if (fromValue instanceof ACA.Reference && this._initialEntities.has(fromValue.classOf)) {
                 // Special case of Reference
 
                 const fromRef = fromValue.is(null) ? null : this._initialEntities.get(fromValue.classOf).get(fromValue.value);
@@ -1034,7 +1041,8 @@ class GenericImporter {
                         }
                     );
                 }
-            } else if (fromValue instanceof ACA.OrderedCollection && this._initialEntities.has(fromValue.classOf)) {
+            }
+            else if (fromValue instanceof ACA.OrderedCollection && this._initialEntities.has(fromValue.classOf)) {
                 // Special case of OrderedCollection
 
                 const fromNames = [];
@@ -1044,9 +1052,7 @@ class GenericImporter {
                     fromNames.push(`${entity.name} (${entity.id})`);
                 }
 
-                const toNames = this._em.getRepository(toValue.classOf).getList(toValue).map((entity) => {
-                    return `${entity.name} (${entity.id})`;
-                });
+                const toNames = this._em.getRepository(toValue.classOf).getList(toValue).map(entity => `${entity.name} (${entity.id})`);
 
                 // Sort to prevent order change making false positive
                 fromNames.sort();
@@ -1059,9 +1065,10 @@ class GenericImporter {
                             from: JSON.stringify(fromNames),
                             to: JSON.stringify(toNames)
                         }
-                    )
+                    );
                 }
-            } else if (fromValue instanceof ACA.Collection && this._initialEntities.has(fromValue.classOf)) {
+            }
+            else if (fromValue instanceof ACA.Collection && this._initialEntities.has(fromValue.classOf)) {
                 // Special case of Collection
 
                 const fromNames = [];
@@ -1071,9 +1078,7 @@ class GenericImporter {
                     fromNames.push(`${entity.name} (${entity.id})`);
                 }
 
-                const toNames = this._em.getRepository(toValue.classOf).getList(toValue).map((entity) => {
-                    return `${entity.name} (${entity.id})`;
-                });
+                const toNames = this._em.getRepository(toValue.classOf).getList(toValue).map(entity => `${entity.name} (${entity.id})`);
 
                 // Sort to prevent order change making false positive
                 fromNames.sort();
@@ -1086,9 +1091,10 @@ class GenericImporter {
                             from: JSON.stringify(fromNames),
                             to: JSON.stringify(toNames)
                         }
-                    )
+                    );
                 }
-            } else {
+            }
+            else {
                 // Default case
 
                 if (JSON.stringify(fromData[key]) !== JSON.stringify(toData[key])) {
@@ -1116,17 +1122,17 @@ class GenericImporter {
     formatReportToHtml(title, report) {
         const htmlParts = [];
 
-        htmlParts.push('<html>');
-        htmlParts.push(`<head></head>`);
-        htmlParts.push('<body><div>');
+        htmlParts.push("<html>");
+        htmlParts.push("<head></head>");
+        htmlParts.push("<body><div>");
         htmlParts.push(`<h1>${title} <legend>${this._em.options.endpoint}</legend></h1>`);
 
         htmlParts.push(this._formatSummaryHtml(report));
         htmlParts.push(this._formatDetailsHtml(report));
 
-        htmlParts.push('</div></body></html>');
+        htmlParts.push("</div></body></html>");
 
-        return htmlParts.join('');
+        return htmlParts.join("");
     }
 
     /**
@@ -1139,7 +1145,7 @@ class GenericImporter {
     _formatSummaryHtml(report) {
         const htmlParts = [];
 
-        htmlParts.push('<h2>SUMMARY</h2>');
+        htmlParts.push("<h2>SUMMARY</h2>");
 
         const repositoryNames = Object.keys(report);
         const rows = [];
@@ -1152,7 +1158,7 @@ class GenericImporter {
                     [STATUS.CREATED]: report[repositoryName].summary[STATUS.CREATED].length,
                     [STATUS.REMOVED]: report[repositoryName].summary[STATUS.REMOVED].length,
                     [STATUS.KEPT]: report[repositoryName].summary[STATUS.KEPT].length,
-                    [STATUS.IGNORED]: report[repositoryName].summary[STATUS.IGNORED].length,
+                    [STATUS.IGNORED]: report[repositoryName].summary[STATUS.IGNORED].length
                 }
             );
         }
@@ -1166,13 +1172,13 @@ class GenericImporter {
                     {name: STATUS.CREATED, key: STATUS.CREATED},
                     {name: STATUS.REMOVED, key: STATUS.REMOVED},
                     {name: STATUS.KEPT, key: STATUS.KEPT},
-                    {name: STATUS.IGNORED, key: STATUS.IGNORED},
+                    {name: STATUS.IGNORED, key: STATUS.IGNORED}
                 ],
                 rows
             )
         );
 
-        return htmlParts.join('');
+        return htmlParts.join("");
     }
 
     /**
@@ -1201,10 +1207,10 @@ class GenericImporter {
         if (changesCount === 0) {
             // Skip if no changes
 
-            return '';
+            return "";
         }
 
-        htmlParts.push('<h2>DETAILS</h2>');
+        htmlParts.push("<h2>DETAILS</h2>");
 
         for (const repositoryName of repositoryNames) {
             if (changesCountByRepository.get(repositoryName) === 0) {
@@ -1222,14 +1228,15 @@ class GenericImporter {
                             report[repositoryName].details[status]
                         )
                     );
-                } else if ([STATUS.CREATED, STATUS.REMOVED].includes(status) && report[repositoryName].summary[status].length > 0) {
+                }
+                else if ([STATUS.CREATED, STATUS.REMOVED].includes(status) && report[repositoryName].summary[status].length > 0) {
                     htmlParts.push(
                         this._createHtmlTable(
                             status,
                             [
                                 {name: "Name", key: "name"},
                                 {name: "Client ID", key: "signature"},
-                                {name: "Adsum ID", key: "id"},
+                                {name: "Adsum ID", key: "id"}
                             ],
                             report[repositoryName].summary[status]
                         )
@@ -1238,7 +1245,7 @@ class GenericImporter {
             }
         }
 
-        return htmlParts.join('');
+        return htmlParts.join("");
     }
 
     /**
@@ -1259,7 +1266,7 @@ class GenericImporter {
         const ids = Object.keys(updateDetails);
 
         if (ids.length === 0) {
-            htmlParts.push('<p>None</p>');
+            htmlParts.push("<p>None</p>");
         }
 
         for (const id of ids) {
@@ -1269,14 +1276,14 @@ class GenericImporter {
                     [
                         {name: "Property", key: "property"},
                         {name: "From", key: "from"},
-                        {name: "To", key: "to"},
+                        {name: "To", key: "to"}
                     ],
                     updateDetails[id]
                 )
             );
         }
 
-        return htmlParts.join('');
+        return htmlParts.join("");
     }
 
     /**
@@ -1290,43 +1297,43 @@ class GenericImporter {
      */
     _createHtmlTable(title, columns, rows) {
         if (rows.length === 0) {
-            return '';
+            return "";
         }
 
         const htmlParts = [];
 
-        htmlParts.push('<table style="border: 1px solid #ddd;width: 100%;max-width: 100%;margin-bottom: 20px;background-color: transparent;border-spacing: 0;border-collapse: collapse;">');
+        htmlParts.push("<table style=\"border: 1px solid #ddd;width: 100%;max-width: 100%;margin-bottom: 20px;background-color: transparent;border-spacing: 0;border-collapse: collapse;\">");
 
         // Title
         htmlParts.push(`<caption style="padding-top: 8px;padding-bottom: 8px;color: #777;text-align: left;">${title}</caption>`);
 
         // Header
         htmlParts.push("<thead>");
-        htmlParts.push('<tr>');
+        htmlParts.push("<tr>");
         for (const column of columns) {
-            htmlParts.push(`<th style="border-top: 0;border: 1px solid #ddd;vertical-align: bottom;padding: 8px;line-height: 1.42857143;text-align: left;font-weight: bold;">`);
+            htmlParts.push("<th style=\"border-top: 0;border: 1px solid #ddd;vertical-align: bottom;padding: 8px;line-height: 1.42857143;text-align: left;font-weight: bold;\">");
             htmlParts.push(`${column.name}`);
-            htmlParts.push(`</th>`);
+            htmlParts.push("</th>");
         }
-        htmlParts.push('</tr>');
+        htmlParts.push("</tr>");
         htmlParts.push("</thead>");
 
         // Rows
         htmlParts.push("<tbody>");
         for (const row of rows) {
-            htmlParts.push('<tr>');
+            htmlParts.push("<tr>");
             for (const column of columns) {
-                htmlParts.push(`<td style="border: 1px solid #ddd;padding: 8px;line-height: 1.42857143;vertical-align: top;">`);
+                htmlParts.push("<td style=\"border: 1px solid #ddd;padding: 8px;line-height: 1.42857143;vertical-align: top;\">");
                 htmlParts.push(`${row[column.key]}`);
-                htmlParts.push(`</td>`);
+                htmlParts.push("</td>");
             }
-            htmlParts.push('</tr>');
+            htmlParts.push("</tr>");
         }
         htmlParts.push("</tbody>");
 
-        htmlParts.push('</table>');
+        htmlParts.push("</table>");
 
-        return htmlParts.join('');
+        return htmlParts.join("");
     }
 }
 module.exports = GenericImporter;
