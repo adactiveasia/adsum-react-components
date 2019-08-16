@@ -44,6 +44,7 @@ type OwnPropsType = {|
     interchangeLabelStyle: object,
     reverseFloor: Boolean,
     pmrNaming: Boolean,
+    customResetFunction: *,
 |};
 
 type PropsType = MappedStatePropsType & MappedDispatchPropsType & OwnPropsType;
@@ -101,6 +102,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
             onRemovePath,
             reverseFloor,
             pmrNaming,
+            customResetFunction,
         } = this.props;
 
         // While Drawing
@@ -173,7 +175,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
 
         if (wayFindingControlsState.resetMapAndWayFinding.reset) {
             const { awm } = this.props;
-
+            customResetFunction();
             awm.wayfindingManager.reset();
             if (wayFindingControlsState.resetMapAndWayFinding.resetWayfinding) {
                 this.resetAllWayFinding();
