@@ -137,7 +137,9 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                 // If It is Destination Label
                 if (prevProps.wayfindingState.drawing !== wayfindingState.drawing && prevProps.wayfindingState.drawing
                     && wayfindingState.currentSectionIndex === (pathSection.length - 1)) {
-                    this.addArrivalLabel(finalLabelText, pathSection);
+                    if(wayFindingControlsState.isArrivedLabel) {
+                        this.addArrivalLabel(finalLabelText, pathSection);
+                    }
 
                 // If it is Interchange Label(s)
                 } else if (wayfindingState.currentSectionIndex !== (pathSection.length - 1) && prevProps.wayfindingState.drawing) {
@@ -165,8 +167,9 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                     }
                     const icDestinationFloor = pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.name;
                     const changeFloorLabelText = `${icLabelText + icDestinationFloorPosition + icDestinationFloor.replace('_', ' ')} `;
-
-                    this.addInterchangeLabel(changeFloorLabelText, pathSection);
+                    if(wayFindingControlsState.isInterchangeLabel) {
+                        this.addInterchangeLabel(changeFloorLabelText, pathSection);
+                    }
                 }
             }
         }

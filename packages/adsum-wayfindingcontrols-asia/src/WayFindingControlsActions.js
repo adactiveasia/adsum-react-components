@@ -10,7 +10,9 @@ export const PMR = 'pmr';
 export const DESTINATION = 'DESTINATION';
 export const PLACE_DESTINATION = 'PLACE_DESTINATION';
 export const ARRIVED_LABEL = 'ARRIVED_LABEL';
+export const ARRIVED_LABEL_VISIBILITY = 'ARRIVED_LABEL_VISIBILITY';
 export const INTERCHANGE_LABEL = 'INTERCHANGE_LABEL';
+export const INTERCHANGE_LABEL_VISIBILITY = 'INTERCHANGE_LABEL_VISIBILITY';
 export const RESET_ARRIVAL_LABEL = 'RESET_ARRIVAL_LABEL';
 export const RESET_INTERCHANGE_LABEL = 'RESET_INTERCHANGE_LABEL';
 export const RESET_MAP_AND_WAY_FINDING = 'RESET_MAP_AND_WAY_FINDING';
@@ -71,11 +73,29 @@ export function arrivedLabel(label) {
     };
 }
 
+export function showArrivedLabel(value) {
+    return (dispatch) => {
+        dispatch({
+            type: ARRIVED_LABEL_VISIBILITY,
+            payload: value
+        });
+    };
+}
+
 export function interchangeLabel(label) {
     return (dispatch) => {
         dispatch({
             type: INTERCHANGE_LABEL,
             payload: label
+        });
+    };
+}
+
+export function showInterchangeLabel(value) {
+    return (dispatch) => {
+        dispatch({
+            type: INTERCHANGE_LABEL_VISIBILITY,
+            payload: value
         });
     };
 }
