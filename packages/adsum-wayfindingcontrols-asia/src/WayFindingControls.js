@@ -178,7 +178,9 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
 
         if (wayFindingControlsState.resetMapAndWayFinding.reset) {
             const { awm } = this.props;
-            customResetFunction();
+            if (customResetFunction) {
+                customResetFunction();
+            }
             awm.wayfindingManager.reset();
             if (wayFindingControlsState.resetMapAndWayFinding.resetWayfinding) {
                 this.resetAllWayFinding();
