@@ -1,4 +1,4 @@
-const ACA = require("adsum-client-api");
+const ACA = require("@adactive/adsum-client-api");
 const GenericImporter = require("./src/GenericImporter");
 const AbstractClientImporter = require("./src/AbstractClientImporter");
 const CategoryPattern = require("./src/pattern/CategoryPattern");

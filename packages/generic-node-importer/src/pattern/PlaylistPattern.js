@@ -1,4 +1,4 @@
-const ACA = require("adsum-client-api");
+const ACA = require("@adactive/adsum-client-api");
 const AbstractPattern = require("./AbstractPattern");
 const OrderedList = require("./structure/OrderedList");
 const List = require("./structure/List");

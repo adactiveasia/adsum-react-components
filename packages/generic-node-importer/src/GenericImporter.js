@@ -1,4 +1,4 @@
-const ACA = require("adsum-client-api");
+const ACA = require("@adactive/adsum-client-api");
 const co = require("co");
 const fs = require("fs");
 const nodemailer = require("nodemailer");
