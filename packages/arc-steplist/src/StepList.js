@@ -4,6 +4,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { MainActions, WayfindingActions } from '@adactive/arc-map';
+import { WayFindingControlsActions } from '@adactive/adsum-wayfindingcontrols-asia';
+
+import ACA from '@adactive/adsum-utils/services/ClientAPI';
 import type { Path } from '@adactive/adsum-web-map';
 
 import Step, { type StepModeType } from './subComponents/Step';
@@ -238,19 +241,42 @@ class StepList extends React.Component<PropsType, StateType> {
         else step.message = messages.default;
     };
 
-    onStepClick = () => () => null // stepIndex: number
-        // // if is first step, restart the whole wayfinding
-        // if (stepIndex === 0) {
-        //     goToPlace(placeId, pmr);
-        //     return;
-        // }
+    onStepClick = (stepIndex: number) => () => { // stepIndex: number
+        const { steps } = this.state;
+        const { clickable, drawPathSection, goToPlace, placeId, pmr, takeMeThereState, tmtt } = this.props;
+        if(!takeMeThereState && placeId) {
+            const place = ACA.getPlace(placeId)
+            const poi = ACA.getPoisFromPlace(placeId)
+            tmtt(poi[0], [place]);
+        }
+        if((stepIndex%2) !== 0) {
+            // if is first step, restart the whole wayfinding
+            if (stepIndex === 0) {
+                goToPlace(placeId, pmr);
+                return;
+            }
 
-        // // if is last step, do nothing
-        // if (stepIndex === steps.length - 1) return;
+            // if is last step, do nothing
+            if (stepIndex === steps.length - 1) return;
 
-        // // else draw path section of the selected step
-        // drawPathSection(placeId, stepIndex, pmr);
-    ;
+            // else draw path section of the selected step
+            drawPathSection(placeId, stepIndex, pmr);
+        } else {
+            if(clickable){
+                // if is first step, restart the whole wayfinding
+                if (stepIndex === 0) {
+                    goToPlace(placeId, pmr);
+                    return;
+                }
+
+                // if is last step, do nothing
+                if (stepIndex === steps.length - 1) return;
+
+                // else draw path section of the selected step
+                drawPathSection(placeId, stepIndex, pmr);
+            }
+        }
+    }
 
     generateSteps(path: Path): Array<StepType> {
         if (!path) return [];
@@ -369,6 +395,9 @@ const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
         if (placeId) {
             dispatch(WayfindingActions.drawPathSectionAction(placeId, pathSectionIndex, pmr));
         }
+    },
+    tmtt: (poi, poiPlace, pmr) => {
+        dispatch(WayFindingControlsActions.tmtt(poi, poiPlace, pmr));
     },
 });
 

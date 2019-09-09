@@ -1,9 +1,10 @@
 {
-  "name": "@adactive/arc-steplist",
-  "version": "2.5.4",
-  "description": "Adsum Steplist Component",
+  "name": "adasia-steplist",
+  "version": "0.0.1",
+  "description": "Adsum Asia Steplist Component",
   "main": "index.js",
   "author": "Basile Nouvellet <basile.nouvellet@ponts.org>",
+  "contributors": ["Erlanda Zakaria <erlandazakaria@gmail.com>"],
   "license": "UNLISENCED",
   "readmeFilename": "README.md",
   "repository": {
@@ -28,7 +29,7 @@
     "redux"
   ],
   "bin": {
-    "arc-steplist": "./cli.js"
+    "adasia-steplist": "./cli.js"
   },
   "gitHead": "5a7de0b34b71a7589e5e6e4161d2a82b7b0a3482"
 }
