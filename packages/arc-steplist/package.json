@@ -1,5 +1,5 @@
 {
-  "name": "adasia-steplist",
+  "name": "@adactiveasia/adasia-steplist",
   "version": "0.0.1",
   "description": "Adsum Asia Steplist Component",
   "main": "index.js",
