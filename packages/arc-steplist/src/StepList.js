@@ -4,7 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { MainActions, WayfindingActions } from '@adactive/arc-map';
-import { WayFindingControlsActions } from '@adactive/adsum-wayfindingcontrols-asia';
+import { WayFindingControlsActions } from '@adactiveasia/adasia-wayfindingcontrols';
 
 import ACA from '@adactive/adsum-utils/services/ClientAPI';
 import type { Path } from '@adactive/adsum-web-map';

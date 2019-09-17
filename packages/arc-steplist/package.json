@@ -1,6 +1,6 @@
 {
   "name": "@adactiveasia/adasia-steplist",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Adsum Asia Steplist Component",
   "main": "index.js",
   "author": "Basile Nouvellet <basile.nouvellet@ponts.org>",
