@@ -56,8 +56,9 @@ type MappedStatePropsType = {|
     takeMeThereState: *,
 |};
 type MappedDispatchPropsType = {|
-    // +goToPlace: (placeId: ?number, pmr: boolean) => void,
-    // +drawPathSection: (placeId: ?number, stepIndex: number, pmr: boolean) => void,
+    goToPlace: (placeId: ?number, pmr: boolean) => void,
+    drawPathSection: (placeId: ?number, pathSectionIndex: number, pmr: boolean) => void,
+    tmtt: (poi, poiPlace, pmr) => void,
 |};
 type OwnPropsType = {|
     placeId: ?number,
@@ -66,6 +67,7 @@ type OwnPropsType = {|
     stepStyle: StepStyleType, // optional
     renderStep: RenderStepType, // optional
     renderStepTail: RenderStepTailType, // optional
+    clickable: boolean,
 |};
 type PropsType = MappedStatePropsType & MappedDispatchPropsType & OwnPropsType;
 
@@ -243,13 +245,15 @@ class StepList extends React.Component<PropsType, StateType> {
 
     onStepClick = (stepIndex: number) => () => { // stepIndex: number
         const { steps } = this.state;
-        const { clickable, drawPathSection, goToPlace, placeId, pmr, takeMeThereState, tmtt } = this.props;
-        if(!takeMeThereState && placeId) {
-            const place = ACA.getPlace(placeId)
-            const poi = ACA.getPoisFromPlace(placeId)
+        const {
+            clickable, drawPathSection, goToPlace, placeId, pmr, takeMeThereState, tmtt
+        } = this.props;
+        if (!takeMeThereState && placeId) {
+            const place = ACA.getPlace(placeId);
+            const poi = ACA.getPoisFromPlace(placeId);
             tmtt(poi[0], [place]);
         }
-        if((stepIndex%2) !== 0) {
+        if ((stepIndex % 2) !== 0) {
             // if is first step, restart the whole wayfinding
             if (stepIndex === 0) {
                 goToPlace(placeId, pmr);
@@ -261,20 +265,18 @@ class StepList extends React.Component<PropsType, StateType> {
 
             // else draw path section of the selected step
             drawPathSection(placeId, stepIndex, pmr);
-        } else {
-            if(clickable){
-                // if is first step, restart the whole wayfinding
-                if (stepIndex === 0) {
-                    goToPlace(placeId, pmr);
-                    return;
-                }
-
-                // if is last step, do nothing
-                if (stepIndex === steps.length - 1) return;
-
-                // else draw path section of the selected step
-                drawPathSection(placeId, stepIndex, pmr);
+        } else if (clickable) {
+            // if is first step, restart the whole wayfinding
+            if (stepIndex === 0) {
+                goToPlace(placeId, pmr);
+                return;
             }
+
+            // if is last step, do nothing
+            if (stepIndex === steps.length - 1) return;
+
+            // else draw path section of the selected step
+            drawPathSection(placeId, stepIndex, pmr);
         }
     }
 
