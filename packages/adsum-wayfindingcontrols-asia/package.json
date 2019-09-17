@@ -1,6 +1,6 @@
 {
-  "name": "@adactive/adsum-wayfindingcontrols-asia",
-  "version": "2.6.3",
+  "name": "@adactiveasia/adasia-wayfindingcontrols",
+  "version": "0.0.1",
   "description": "Adsum Way Finding Controls Component",
   "main": "index.js",
   "author": "Erlanda Zakaria <erlandazakaria@gmail.com>",

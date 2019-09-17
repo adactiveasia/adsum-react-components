@@ -144,31 +144,35 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                 // If it is Interchange Label(s)
                 } else if (wayfindingState.currentSectionIndex !== (pathSection.length - 1) && prevProps.wayfindingState.drawing) {
                     let icDestinationFloorPosition;
-                    if (reverseFloor) {
-                        if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
-                            icDestinationFloorPosition = 'Down ';
-                        } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
+                    try {
+                        if (reverseFloor) {
+                            if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
+                                icDestinationFloorPosition = 'Down ';
+                            } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
+                                icDestinationFloorPosition = 'Up ';
+                            } else {
+                                icDestinationFloorPosition = 'Straight ';
+                            }
+                        } else if (pmrNaming) {
+                            if (wayFindingControlsState.pmr) {
+                                icDestinationFloorPosition = 'Lift to ';
+                            } else {
+                                icDestinationFloorPosition = 'Escalator to ';
+                            }
+                        } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
                             icDestinationFloorPosition = 'Up ';
+                        } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
+                            icDestinationFloorPosition = 'Down ';
                         } else {
                             icDestinationFloorPosition = 'Straight ';
                         }
-                    } else if (pmrNaming) {
-                        if (wayFindingControlsState.pmr) {
-                            icDestinationFloorPosition = 'Lift to ';
-                        } else {
-                            icDestinationFloorPosition = 'Escalator to ';
+                        const icDestinationFloor = pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.name;
+                        const changeFloorLabelText = `${icLabelText + icDestinationFloorPosition + icDestinationFloor.replace('_', ' ')} `;
+                        if (wayFindingControlsState.isInterchangeLabel) {
+                            this.addInterchangeLabel(changeFloorLabelText, pathSection);
                         }
-                    } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
-                        icDestinationFloorPosition = 'Up ';
-                    } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
-                        icDestinationFloorPosition = 'Down ';
-                    } else {
-                        icDestinationFloorPosition = 'Straight ';
-                    }
-                    const icDestinationFloor = pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.name;
-                    const changeFloorLabelText = `${icLabelText + icDestinationFloorPosition + icDestinationFloor.replace('_', ' ')} `;
-                    if (wayFindingControlsState.isInterchangeLabel) {
-                        this.addInterchangeLabel(changeFloorLabelText, pathSection);
+                    } catch (err) {
+                        console.log('line 145 wayfinding asia', err);
                     }
                 }
             }
@@ -178,9 +182,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
 
         if (wayFindingControlsState.resetMapAndWayFinding.reset) {
             const { awm } = this.props;
-            if (customResetFunction) {
-                customResetFunction();
-            }
+            customResetFunction();
             awm.wayfindingManager.reset();
             if (wayFindingControlsState.resetMapAndWayFinding.resetWayfinding) {
                 this.resetAllWayFinding();
@@ -236,7 +238,11 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
         if (!findDuplicateArrivalLabel) {
             arrivedLabel(finalLabelText);
         }
-        awm.objectManager.addLabelOnAdsumLocation(arrivedLabelText, pathSection[pathSection.length - 1].to);
+        try {
+            awm.objectManager.addLabelOnAdsumLocation(arrivedLabelText, pathSection[pathSection.length - 1].to);
+        } catch (err) {
+            console.log('line 242 wayfinding asia', err);
+        }
     }
 
     addInterchangeLabel(changeFloorLabelText, pathSection) {
@@ -257,8 +263,12 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
         if (!findDuplicateIcLabel) {
             interchangeLabel(changeFloorLabelText);
         }
-        if (pathSection && pathSection[wayfindingState.currentSectionIndex] && pathSection[wayfindingState.currentSectionIndex].to) {
-            awm.objectManager.addLabelOnAdsumLocation(changeFloorLabel, pathSection[wayfindingState.currentSectionIndex].to);
+        try {
+            if (pathSection && pathSection[wayfindingState.currentSectionIndex] && pathSection[wayfindingState.currentSectionIndex].to) {
+                awm.objectManager.addLabelOnAdsumLocation(changeFloorLabel, pathSection[wayfindingState.currentSectionIndex].to);
+            }
+        } catch (err) {
+            console.log('line 266 wayfinding asia', err);
         }
     }
 
