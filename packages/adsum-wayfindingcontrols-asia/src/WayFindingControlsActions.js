@@ -4,7 +4,6 @@ import { WayfindingActions } from '@adactive/arc-map';
 
 // eslint-disable-next-line import/no-unresolved
 import store from '../../../../src/store/index';
-import { dispatch } from 'C:/Users/USER/AppData/Local/Microsoft/TypeScript/3.6/node_modules/rxjs/internal/observable/range';
 
 export const tmt = 'tmt';
 export const PMR = 'pmr';
