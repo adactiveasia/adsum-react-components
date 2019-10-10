@@ -3,6 +3,7 @@
 import {
     tmt,
     PMR,
+    TMT_FINISH,
     DESTINATION,
     PLACE_DESTINATION,
     ARRIVED_LABEL,
@@ -29,6 +30,7 @@ const initialState = {
         resetMapAnimatedOption: false,
         resetWayfinding: false,
     },
+    finish: true,
 };
 
 export default function (state = initialState, action) {
@@ -40,6 +42,10 @@ export default function (state = initialState, action) {
     case PMR:
         return Object.assign({}, state, {
             pmr: action.payload
+        });
+    case TMT_FINISH:
+        return Object.assign({}, state, {
+            finish: action.payload
         });
     case DESTINATION:
         return Object.assign({}, state, {

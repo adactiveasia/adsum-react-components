@@ -4,9 +4,11 @@ import { WayfindingActions } from '@adactive/arc-map';
 
 // eslint-disable-next-line import/no-unresolved
 import store from '../../../../src/store/index';
+import { dispatch } from 'C:/Users/USER/AppData/Local/Microsoft/TypeScript/3.6/node_modules/rxjs/internal/observable/range';
 
 export const tmt = 'tmt';
 export const PMR = 'pmr';
+export const TMT_FINISH = 'finish';
 export const DESTINATION = 'DESTINATION';
 export const PLACE_DESTINATION = 'PLACE_DESTINATION';
 export const ARRIVED_LABEL = 'ARRIVED_LABEL';
@@ -35,6 +37,15 @@ export function tmtt(poi, poiPlace, pmr) {
             payload: poiPlaceFix
         });
     };
+}
+
+export function finish(value) {
+    return (dispatch) => {
+        dispatch({
+            type: TMT_FINISH,
+            payload: value
+        })
+    }
 }
 
 export function inputPMR(value) {

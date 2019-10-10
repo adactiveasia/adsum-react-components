@@ -103,6 +103,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
             reverseFloor,
             pmrNaming,
             customResetFunction,
+            wayfindingFinish
         } = this.props;
 
         // While Drawing
@@ -137,9 +138,11 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                 // If It is Destination Label
                 if (prevProps.wayfindingState.drawing !== wayfindingState.drawing && prevProps.wayfindingState.drawing
                     && wayfindingState.currentSectionIndex === (pathSection.length - 1)) {
+
                     if (wayFindingControlsState.isArrivedLabel) {
                         this.addArrivalLabel(finalLabelText, pathSection);
                     }
+                    wayfindingFinish(true);
 
                 // If it is Interchange Label(s)
                 } else if (wayfindingState.currentSectionIndex !== (pathSection.length - 1) && prevProps.wayfindingState.drawing) {
@@ -360,6 +363,9 @@ const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
     resetSelection: (): void => {
         dispatch(SelectionActions.didResetSelectionAction());
     },
+    wayfindingFinish: (value) => {
+        dispatch(WayFindingControlsActions.finish(value));
+    }
 });
 
 export default connect(
