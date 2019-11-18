@@ -112,6 +112,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
             && wayFindingControlsState.takeMeThere
             && wayFindingControlsState.takeMeThere[0]
             && wayFindingControlsState.takeMeThere[0].id) {
+            try{
             // Define Needed Variable
 
             const path = getPath(wayFindingControlsState.takeMeThere[0].id, wayFindingControlsState.pmr);
@@ -150,11 +151,11 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                     try {
                         if (reverseFloor) {
                             if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
-                                icDestinationFloorPosition = 'Down ';
+                                icDestinationFloorPosition = 'Down to ';
                             } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
-                                icDestinationFloorPosition = 'Up ';
+                                icDestinationFloorPosition = 'Up to ';
                             } else {
-                                icDestinationFloorPosition = 'Straight ';
+                                icDestinationFloorPosition = 'Straight to ';
                             }
                         } else if (pmrNaming) {
                             if (wayFindingControlsState.pmr) {
@@ -163,11 +164,11 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                                 icDestinationFloorPosition = 'Escalator to ';
                             }
                         } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
-                            icDestinationFloorPosition = 'Up ';
+                            icDestinationFloorPosition = 'Up to ';
                         } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
-                            icDestinationFloorPosition = 'Down ';
+                            icDestinationFloorPosition = 'Down to ';
                         } else {
-                            icDestinationFloorPosition = 'Straight ';
+                            icDestinationFloorPosition = 'Straight to ';
                         }
                         const icDestinationFloor = pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.name;
                         const changeFloorLabelText = `${icLabelText + icDestinationFloorPosition + icDestinationFloor.replace('_', ' ')} `;
@@ -179,7 +180,9 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                     }
                 }
             }
-        }
+        } catch(err) {
+            console.log('wayfindingerror', err)
+        }}
 
         // If ResetMap And WayFinding
 
