@@ -101,9 +101,13 @@ class AdsumCarousel extends React.Component<PropsType> {
                 //     setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(0); }, someInterval),
                 // });
             } else {
+                try{
                 this.setState({
-                    setTimeoutSlide: setTimeout(() => { this.carousel.goToSlide(id + 1); }, someInterval),
+                    setTimeoutSlide: setTimeout(() => { try{this.carousel.goToSlide(id + 1)} catch(err){console.log('gotoSlide trycatcherr', err)} }, someInterval),
                 });
+                } catch(err) {
+                    console.log('gotoSlide trycatcherr outside', err)
+                }
             }
         }
     }
