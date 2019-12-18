@@ -84,6 +84,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
             },
         },
         reverseFloor: false,
+        fullCustomIcLabelText: false,
     }
 
     componentDidUpdate(prevProps) {
@@ -96,6 +97,7 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
             placeDestination,
             destinationLabelText,
             icLabelText,
+            fullCustomIcLabelText,
             resetMapAndWayFinding,
             resetMap,
             resetSelection,
@@ -163,6 +165,8 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
                             } else {
                                 icDestinationFloorPosition = 'Escalator to ';
                             }
+                        } else if (fullCustomIcLabelText) {
+                            icDestinationFloorPosition = '';
                         } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id > kioskPlace.id) {
                             icDestinationFloorPosition = 'Up to ';
                         } else if (pathSection[wayfindingState.currentSectionIndex + 1].to.pathNode.ground.id < kioskPlace.id) {
