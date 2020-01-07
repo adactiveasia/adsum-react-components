@@ -1,9 +1,15 @@
 {
-  "name": "@adactive/arc-clock",
-  "version": "2.5.3",
+  "name": "@adactiveasia/adasia-clock",
+  "version": "0.0.1",
   "description": "Adsum Clock Component",
   "main": "index.js",
   "author": "Stanley Ong <stanley.ong@adactive.com>",
+  "contributors": [
+    {
+      "name": "Erlanda Zakaria",
+      "email": "erlandazakaria@gmail.com"
+    }
+  ],
   "license": "UNLISENCED",
   "readmeFilename": "README.md",
   "repository": {
