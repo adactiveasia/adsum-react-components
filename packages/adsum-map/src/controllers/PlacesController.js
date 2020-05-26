@@ -117,12 +117,15 @@ class PlacesController {
     }
 
     async computeUserToPlace(place, pmr = false){
-        const results = [];
+        const results = []
         const path = await this.createAndComputePathFromUserLocationToPlace(place, pmr);
-        results.push(path);
-        pmr ? this.sortedPathsPMR.set(path.to.id, path)
+        results.push(path)
+        const pathPMR = await this.createAndComputePathFromUserLocationToPlace(place, pmr);
+        results.push(pathPMR)
+        pmr ? this.sortedPathsPMR.set(pathPMR.to.id, pathPMR)
         : this.sortedPaths.set(path.to.id, path);
-        return Promise.all(results);
+        
+        return Promise.all(results)
     }
 
     async createAndComputePathFromUserLocationToPlace(place, pmr) {
