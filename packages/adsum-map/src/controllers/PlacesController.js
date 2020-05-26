@@ -116,6 +116,15 @@ class PlacesController {
         return Promise.all(results);
     }
 
+    async computeUserToPlace(place, pmr = false){
+        const results = [];
+        const path = await this.createAndComputePathFromUserLocationToPlace(place, pmr);
+        results.push(path);
+        pmr ? this.sortedPathsPMR.set(path.to.id, path)
+        : this.sortedPaths.set(path.to.id, path);
+        return Promise.all(results);
+    }
+
     async createAndComputePathFromUserLocationToPlace(place, pmr) {
     // Get the object location
         const location = this.awm.wayfindingManager.locationRepository.get(place.id);
