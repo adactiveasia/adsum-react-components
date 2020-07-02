@@ -15,27 +15,27 @@ import './StepList.css';
 
 export type StepType = {|
     index: number,
-        floor: ?{|
-            id: number,
-                name: ?string,
-                    deltaAltitudeWithPrevStep: number,
+    floor: ?{|
+        id: number,
+        name: ?string,
+        deltaAltitudeWithPrevStep: number,
     |},
-message: string,
+    message: string,
 |};
 
 export type MessagesType = (step: StepType) => {|
     firstStep?: string,
-        lastStep ?: string,
-        isInterfloor ?: string,
+    lastStep?: string,
+    isInterfloor?: string,
     default?: string,
 |};
 
 export type StepStyleType = {|
-    default?: { [key: string]: string },
-isDone ?: { [key: string]: string },
-    current ?: { [key: string]: string },
-    isNext ?: { [key: string]: string },
-    isNotDoneYet ?: { [key: string]: string },
+    default?: { [key: string]: string},
+    isDone?: { [key: string]: string},
+    current?: { [key: string]: string},
+    isNext?: { [key: string]: string},
+    isNotDoneYet?: { [key: string]: string},
 |};
 
 export type RenderStepType = (
@@ -43,36 +43,36 @@ export type RenderStepType = (
     step: StepType,
     stepStyle: StepStyleType,
     onClick: (stepIndex: number) => () => void,
-) =>?Node;
+) => ?Node;
 
-export type RenderStepTailType = (mode: StepModeType, step: StepType) =>?Node;
+export type RenderStepTailType = (mode: StepModeType, step: StepType) => ?Node;
 
 type MappedStatePropsType = {|
     +wayfindingState: {|
-    +drawing: boolean,
+        +drawing: boolean,
         +currentSectionIndex: ?number,
     |},
-+getPath: ?(id: number, pmr: boolean) => ? Path,
+    +getPath: ?(id: number, pmr: boolean) => ?Path,
     takeMeThereState: *,
 |};
 type MappedDispatchPropsType = {|
     goToPlace: (placeId: ?number, pmr: boolean) => void,
-        drawPathSection: (placeId: ?number, pathSectionIndex: number, pmr: boolean) => void,
-            tmtt: (poi, poiPlace, pmr) => void,
+    drawPathSection: (placeId: ?number, pathSectionIndex: number, pmr: boolean) => void,
+    tmtt: (poi, poiPlace, pmr) => void,
 |};
 type OwnPropsType = {|
     placeId: ?number,
-        pmr: boolean, // optional
-            messages: MessagesType, // optional
-                stepStyle: StepStyleType, // optional
-                    renderStep: RenderStepType, // optional
-                        renderStepTail: RenderStepTailType, // optional
-                            clickable: boolean,
+    pmr: boolean, // optional
+    messages: MessagesType, // optional
+    stepStyle: StepStyleType, // optional
+    renderStep: RenderStepType, // optional
+    renderStepTail: RenderStepTailType, // optional
+    clickable: boolean,
 |};
 type PropsType = MappedStatePropsType & MappedDispatchPropsType & OwnPropsType;
 
 type StateType = {|
-    steps: Array < StepType >,
+    steps: Array<StepType>,
 |};
 
 class StepList extends React.Component<PropsType, StateType> {
@@ -123,17 +123,17 @@ class StepList extends React.Component<PropsType, StateType> {
             stepStyle: StepStyleType,
             onClick: (stepIndex: number) => () => void,
         ) => (
-                <div
-                    className="step"
-                    style={stepStyle}
-                    onClick={onClick(step.index)}
-                    role="complementary"
-                    onKeyDown={() => { }}
-                >
-                    <div className="badge">{step.index + 1}</div>
-                    <div className="message">{step.message}</div>
-                </div>
-            ),
+            <div
+                className="step"
+                style={stepStyle}
+                onClick={onClick(step.index)}
+                role="complementary"
+                onKeyDown={() => {}}
+            >
+                <div className="badge">{step.index + 1}</div>
+                <div className="message">{step.message}</div>
+            </div>
+        ),
         renderStepTail: (mode: StepModeType, step: StepType) => {
             if (step.index === 0) return null; // no tail before first step
             const numberOfCircles = 4;
@@ -151,11 +151,11 @@ class StepList extends React.Component<PropsType, StateType> {
                     width: `${100 / (numberOfCircles * 3)}%`,
                     maxWidth: '1em',
                     animation:
-                        mode === 'isNext'
-                            // || firstAnimation
-                            ? `blink ${animationDuration}s linear ${delay}s infinite alternate`
-                            // animation only if step is next
-                            : null,
+                    mode === 'isNext'
+                    // || firstAnimation
+                        ? `blink ${animationDuration}s linear ${delay}s infinite alternate`
+                    // animation only if step is next
+                        : null,
                 }
             );
 
@@ -301,15 +301,17 @@ class StepList extends React.Component<PropsType, StateType> {
         }
 
         // manually add a last step only if path is longer than 2 steps
-        const lastStep = {
-            index: steps.length,
-            floor: {
-                ...steps[steps.length - 1].floor, // copy floor from last step
-                deltaAltitudeWithPrevStep: 0, // overwrite delta altitude to 0
-            },
-            message: '', // will be filled later
-        };
-        steps.splice(steps.length, steps.length, lastStep);
+        if (steps.length > 2) {
+            const lastStep = {
+                index: steps.length,
+                floor: {
+                    ...steps[steps.length - 1].floor, // copy floor from last step
+                    deltaAltitudeWithPrevStep: 0, // overwrite delta altitude to 0
+                },
+                message: '', // will be filled later
+            };
+            steps.splice(steps.length, steps.length, lastStep);
+        }
 
         // add message
         steps.forEach(this.addMessageToStep);
