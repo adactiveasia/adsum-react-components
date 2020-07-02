@@ -4,7 +4,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { MainActions, WayfindingActions } from '@adactive/arc-map';
-import type { MapReducerStateType } from '@adactive/arc-map/src/initialState';
+import { WayFindingControlsActions } from '@adactiveasia/adasia-wayfindingcontrols';
+
+import ACA from '@adactive/adsum-utils/services/ClientAPI';
 import type { Path } from '@adactive/adsum-web-map';
 
 import Step, { type StepModeType } from './subComponents/Step';
@@ -13,27 +15,27 @@ import './StepList.css';
 
 export type StepType = {|
     index: number,
-    floor: ?{|
-        id: number,
-        name: ?string,
-        deltaAltitudeWithPrevStep: number,
+        floor: ?{|
+            id: number,
+                name: ?string,
+                    deltaAltitudeWithPrevStep: number,
     |},
-    message: string,
+message: string,
 |};
 
 export type MessagesType = (step: StepType) => {|
     firstStep?: string,
-    lastStep?: string,
-    isInterfloor?: string,
+        lastStep ?: string,
+        isInterfloor ?: string,
     default?: string,
 |};
 
 export type StepStyleType = {|
-    default?: { [key: string]: string},
-    isDone?: { [key: string]: string},
-    current?: { [key: string]: string},
-    isNext?: { [key: string]: string},
-    isNotDoneYet?: { [key: string]: string},
+    default?: { [key: string]: string },
+isDone ?: { [key: string]: string },
+    current ?: { [key: string]: string },
+    isNext ?: { [key: string]: string },
+    isNotDoneYet ?: { [key: string]: string },
 |};
 
 export type RenderStepType = (
@@ -41,33 +43,36 @@ export type RenderStepType = (
     step: StepType,
     stepStyle: StepStyleType,
     onClick: (stepIndex: number) => () => void,
-) => ?Node;
+) =>?Node;
 
-export type RenderStepTailType = (mode: StepModeType, step: StepType) => ?Node;
+export type RenderStepTailType = (mode: StepModeType, step: StepType) =>?Node;
 
 type MappedStatePropsType = {|
     +wayfindingState: {|
-        +drawing: boolean,
+    +drawing: boolean,
         +currentSectionIndex: ?number,
     |},
-    +getPath: ?(id: number, pmr: boolean) => ?Path,
++getPath: ?(id: number, pmr: boolean) => ? Path,
+    takeMeThereState: *,
 |};
 type MappedDispatchPropsType = {|
-    +goToPlace: (placeId: ?number, pmr: boolean) => void,
-    +drawPathSection: (placeId: ?number, stepIndex: number, pmr: boolean) => void,
+    goToPlace: (placeId: ?number, pmr: boolean) => void,
+        drawPathSection: (placeId: ?number, pathSectionIndex: number, pmr: boolean) => void,
+            tmtt: (poi, poiPlace, pmr) => void,
 |};
 type OwnPropsType = {|
     placeId: ?number,
-    pmr: boolean, // optional
-    messages: MessagesType, // optional
-    stepStyle: StepStyleType, // optional
-    renderStep: RenderStepType, // optional
-    renderStepTail: RenderStepTailType, // optional
+        pmr: boolean, // optional
+            messages: MessagesType, // optional
+                stepStyle: StepStyleType, // optional
+                    renderStep: RenderStepType, // optional
+                        renderStepTail: RenderStepTailType, // optional
+                            clickable: boolean,
 |};
 type PropsType = MappedStatePropsType & MappedDispatchPropsType & OwnPropsType;
 
 type StateType = {|
-    steps: Array<StepType>,
+    steps: Array < StepType >,
 |};
 
 class StepList extends React.Component<PropsType, StateType> {
@@ -118,20 +123,19 @@ class StepList extends React.Component<PropsType, StateType> {
             stepStyle: StepStyleType,
             onClick: (stepIndex: number) => () => void,
         ) => (
-            <div
-                className="step"
-                style={stepStyle}
-                onClick={onClick(step.index)}
-                role="complementary"
-                onKeyDown={() => {}}
-            >
-                <div className="badge">{step.index + 1}</div>
-                <div className="message">{step.message}</div>
-            </div>
-        ),
+                <div
+                    className="step"
+                    style={stepStyle}
+                    onClick={onClick(step.index)}
+                    role="complementary"
+                    onKeyDown={() => { }}
+                >
+                    <div className="badge">{step.index + 1}</div>
+                    <div className="message">{step.message}</div>
+                </div>
+            ),
         renderStepTail: (mode: StepModeType, step: StepType) => {
             if (step.index === 0) return null; // no tail before first step
-
             const numberOfCircles = 4;
 
             // [0, 1, ..., numberOfCircles - 1]
@@ -146,8 +150,12 @@ class StepList extends React.Component<PropsType, StateType> {
                 {
                     width: `${100 / (numberOfCircles * 3)}%`,
                     maxWidth: '1em',
-                    animation: mode !== 'isNext' ? null // animation only if step is next
-                        : `blink ${animationDuration}s linear ${delay}s infinite alternate`,
+                    animation:
+                        mode === 'isNext'
+                            // || firstAnimation
+                            ? `blink ${animationDuration}s linear ${delay}s infinite alternate`
+                            // animation only if step is next
+                            : null,
                 }
             );
 
@@ -190,7 +198,7 @@ class StepList extends React.Component<PropsType, StateType> {
         };
 
         return {
-            index: index + 1, // because we add a first step manually
+            index: index, // because we add a first step manually
             floor,
             message: '', // will be filled later
         };
@@ -205,7 +213,9 @@ class StepList extends React.Component<PropsType, StateType> {
     }
 
     componentDidUpdate(prevProps: PropsType) {
-        const { placeId, pmr } = this.props;
+        const {
+            placeId, pmr
+        } = this.props;
 
         // if placeId or pmr changes, reload the steplist
         if (prevProps.placeId !== placeId || prevProps.pmr !== pmr) this.init();
@@ -233,30 +243,48 @@ class StepList extends React.Component<PropsType, StateType> {
         else step.message = messages.default;
     };
 
-    onStepClick = (stepIndex: number) => () => {
+    onStepClick = (stepIndex: number) => () => { // stepIndex: number
         const { steps } = this.state;
         const {
-            goToPlace, drawPathSection, placeId, pmr
+            clickable, drawPathSection, goToPlace, placeId, pmr, takeMeThereState, tmtt
         } = this.props;
-
-        // if is first step, restart the whole wayfinding
-        if (stepIndex === 0) {
-            goToPlace(placeId, pmr);
-            return;
+        if (!takeMeThereState && placeId) {
+            const place = ACA.getPlace(placeId);
+            const poi = ACA.getPoisFromPlace(placeId);
+            tmtt(poi[0], [place]);
         }
+        if ((stepIndex % 2) !== 0) {
+            // if is first step, restart the whole wayfinding
+            if (stepIndex === 0) {
+                goToPlace(placeId, pmr);
+                return;
+            }
 
-        // if is last step, do nothing
-        if (stepIndex === steps.length - 1) return;
+            // if is last step, do nothing
+            if (stepIndex === steps.length - 1) return;
 
-        // else draw path section of the selected step
-        drawPathSection(placeId, stepIndex, pmr);
-    };
+            // else draw path section of the selected step
+            drawPathSection(placeId, stepIndex, pmr);
+        } else if (clickable) {
+            // if is first step, restart the whole wayfinding
+            if (stepIndex === 0) {
+                goToPlace(placeId, pmr);
+                return;
+            }
+
+            // if is last step, do nothing
+            if (stepIndex === steps.length - 1) return;
+
+            // else draw path section of the selected step
+            drawPathSection(placeId, stepIndex, pmr);
+        }
+    }
 
     generateSteps(path: Path): Array<StepType> {
         if (!path) return [];
 
         // generate steps
-        const steps = path.getPathSections()
+        const steps = path.getPathSections(true)
             .map(StepList.convertSectionToStep);
 
         // manually add first step
@@ -269,21 +297,19 @@ class StepList extends React.Component<PropsType, StateType> {
                 },
                 message: '', // will be filled later
             };
-            steps.splice(0, 0, firstStep);
+            steps.splice(0, 1, firstStep);
         }
 
         // manually add a last step only if path is longer than 2 steps
-        if (steps.length > 2) {
-            const lastStep = {
-                index: steps.length,
-                floor: {
-                    ...steps[steps.length - 1].floor, // copy floor from last step
-                    deltaAltitudeWithPrevStep: 0, // overwrite delta altitude to 0
-                },
-                message: '', // will be filled later
-            };
-            steps.splice(steps.length, steps.length, lastStep);
-        }
+        const lastStep = {
+            index: steps.length,
+            floor: {
+                ...steps[steps.length - 1].floor, // copy floor from last step
+                deltaAltitudeWithPrevStep: 0, // overwrite delta altitude to 0
+            },
+            message: '', // will be filled later
+        };
+        steps.splice(steps.length, steps.length, lastStep);
 
         // add message
         steps.forEach(this.addMessageToStep);
@@ -307,7 +333,7 @@ class StepList extends React.Component<PropsType, StateType> {
 
     renderSteps(steps: Array<StepType>) {
         const {
-            wayfindingState, stepStyle: propStepStyle, renderStep, renderStepTail,
+            wayfindingState, stepStyle: propStepStyle, renderStep, renderStepTail, takeMeThereState
         } = this.props;
 
         const { drawing } = wayfindingState;
@@ -330,6 +356,7 @@ class StepList extends React.Component<PropsType, StateType> {
                 key={step.index}
                 step={step}
                 currentSectionIndex={currentSectionIndex}
+                takeMeThereState={takeMeThereState}
                 onClick={this.onStepClick}
                 stepStyle={stepStyle}
                 renderStep={renderStep}
@@ -351,9 +378,10 @@ class StepList extends React.Component<PropsType, StateType> {
     }
 }
 
-const mapStateToProps = ({ map }: { map: MapReducerStateType }): MappedStatePropsType => ({
-    wayfindingState: map.wayfindingState,
-    getPath: map.getPath,
+const mapStateToProps = (state: AppStateType): MappedStatePropsType => ({
+    wayfindingState: state.map.wayfindingState,
+    getPath: state.map.getPath,
+    takeMeThereState: state.wayFindingControls.takeMeThere,
 });
 
 const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
@@ -367,6 +395,9 @@ const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
         if (placeId) {
             dispatch(WayfindingActions.drawPathSectionAction(placeId, pathSectionIndex, pmr));
         }
+    },
+    tmtt: (poi, poiPlace, pmr) => {
+        dispatch(WayFindingControlsActions.tmtt(poi, poiPlace, pmr));
     },
 });
 
