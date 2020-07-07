@@ -300,16 +300,18 @@ class StepList extends React.Component<PropsType, StateType> {
             steps.splice(0, 1, firstStep);
         }
 
-        // manually add a last step only if path is longer than 2 steps
-        const lastStep = {
-            index: steps.length,
-            floor: {
-                ...steps[steps.length - 1].floor, // copy floor from last step
-                deltaAltitudeWithPrevStep: 0, // overwrite delta altitude to 0
-            },
-            message: '', // will be filled later
-        };
-        steps.push(lastStep);
+        // null safety
+        if (steps.length > 0) {
+            const lastStep = {
+                index: steps.length,
+                floor: {
+                    ...steps[steps.length - 1].floor, // copy floor from last step
+                    deltaAltitudeWithPrevStep: 0, // overwrite delta altitude to 0
+                },
+                message: '', // will be filled later
+            };
+            steps.push(lastStep);
+        }
 
         // add message
         steps.forEach(this.addMessageToStep);
