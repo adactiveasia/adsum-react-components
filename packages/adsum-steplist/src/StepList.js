@@ -82,7 +82,7 @@ class StepList extends React.Component<PropsType, StateType> {
             const { floor } = step;
 
             let floorName = null;
-            let upOrDown = '';
+            // let upOrDown = '';
 
             if (floor) {
                 const { name, deltaAltitudeWithPrevStep } = floor;
@@ -91,14 +91,14 @@ class StepList extends React.Component<PropsType, StateType> {
                 floorName = name;
 
                 // interfloor direction
-                if (deltaAltitudeWithPrevStep > 0) upOrDown = ' up'; // space before on purpose
-                else if (deltaAltitudeWithPrevStep < 0) upOrDown = ' down'; // same
+                // if (deltaAltitudeWithPrevStep > 0) upOrDown = ' up'; // space before on purpose
+                // else if (deltaAltitudeWithPrevStep < 0) upOrDown = ' down'; // same
             }
 
             return {
                 firstStep: `Start here${floorName ? `, at ${floorName}` : ''}`,
                 lastStep: 'You are at your destination',
-                isInterfloor: floorName ? `Go${upOrDown} to ${floorName}` : 'Change floor',
+                isInterfloor: floorName ? `Go to ${floorName}` : 'Change floor',
                 default: 'Continue',
             };
         },
