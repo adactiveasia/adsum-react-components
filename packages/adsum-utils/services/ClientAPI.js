@@ -4,22 +4,42 @@ import { EntityManager } from '@adactive/adsum-client-api';
 import _ from 'lodash';
 
 const repositoryClasses = [
-    SiteRepository, MapFileRepository, FileRepository,
-    CategoryRepository, PoiRepository, FeatureRepository, FeatureValueRepository,
-    PlaceRepository, CustomObjectRepository,
-    PlaylistRepository, MediaRepository,
-    DeviceRepository, SiteCalibrationRepository, FloorCalibrationRepository, TagRepository,
+    'SiteRepository', 
+    'MapFileRepository', 
+    'FileRepository',
+    'CategoryRepository', 
+    'PoiRepository', 
+    'FeatureRepository', 
+    'FeatureValueRepository',
+    'PlaceRepository', 
+    'CustomObjectRepository',
+    'PlaylistRepository', 
+    'MediaRepository',
+    'DeviceRepository', 
+    'SiteCalibrationRepository', 
+    'FloorCalibrationRepository', 
+    'TagRepository',
 ];
 /**
  * @private
  * @property {AbstractListener[]}
  */
 const listenerClasses = [
-    SiteListener, MapFileListener, FileListener,
-    CategoryListener, PoiListener, FeatureListener, FeatureValueListener,
-    PlaceListener, CustomObjectListener,
-    PlaylistListener, MediaListener,
-    DeviceListener, SiteCalibrationListener, FloorCalibrationListener, TagListener,
+    'SiteListener', 
+    'MapFileListener', 
+    'FileListener',
+    'CategoryListener', 
+    'PoiListener', 
+    'FeatureListener', 
+    'FeatureValueListener',
+    'PlaceListener', 
+    'CustomObjectListener',
+    'PlaylistListener', 
+    'MediaListener',
+    'DeviceListener', 
+    'SiteCalibrationListener', 
+    'FloorCalibrationListener', 
+    'TagListener',
 ]; ƒ
 
 class ClientAPI {
