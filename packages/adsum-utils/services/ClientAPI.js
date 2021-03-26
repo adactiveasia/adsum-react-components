@@ -40,13 +40,9 @@ const listenerClasses = [
     'SiteCalibrationListener', 
     'FloorCalibrationListener', 
     'TagListener',
-]; ƒ
+];
 
 class ClientAPI {
-
-
-
-
 
     constructor() {
         this.entityManager = null;
