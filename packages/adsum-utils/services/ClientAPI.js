@@ -3,7 +3,30 @@
 import { EntityManager } from '@adactive/adsum-client-api';
 import _ from 'lodash';
 
+const repositoryClasses = [
+    SiteRepository, MapFileRepository, FileRepository,
+    CategoryRepository, PoiRepository, FeatureRepository, FeatureValueRepository,
+    PlaceRepository, CustomObjectRepository,
+    PlaylistRepository, MediaRepository,
+    DeviceRepository, SiteCalibrationRepository, FloorCalibrationRepository, TagRepository,
+];
+/**
+ * @private
+ * @property {AbstractListener[]}
+ */
+const listenerClasses = [
+    SiteListener, MapFileListener, FileListener,
+    CategoryListener, PoiListener, FeatureListener, FeatureValueListener,
+    PlaceListener, CustomObjectListener,
+    PlaylistListener, MediaListener,
+    DeviceListener, SiteCalibrationListener, FloorCalibrationListener, TagListener,
+]; ƒ
+
 class ClientAPI {
+
+
+
+
 
     constructor() {
         this.entityManager = null;
@@ -11,7 +34,7 @@ class ClientAPI {
         this._allPois = null;
     }
 
-    async init(config, repositoryClasses, listenerClasses) {
+    async init(config, repositoryClasses = repositoryClasses, listenerClasses = listenerClasses) {
         this.entityManager = new EntityManager(
             Object.assign({}, config, {}),
             repositoryClasses,
