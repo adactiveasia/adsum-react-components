@@ -1,9 +1,9 @@
 {
-  "name": "@adactive/adsum-utils",
-  "version": "2.2.0",
+  "name": "@adactiveasia/adsum-utils",
+  "version": "1.0.0",
   "description": "Adsum Component utils",
   "main": "index.js",
-  "author": "Stanley Ong <stanley.ong@adactive.com>",
+  "author": "Stanley Ong <stanley.ong@adactive.com>, Aditya Hadiwijaya <aditya@adactive.asia>",
   "license": "UNLISENCED",
   "readmeFilename": "README.md",
   "repository": {

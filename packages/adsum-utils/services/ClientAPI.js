@@ -1,18 +1,21 @@
 // @flow
 
-import { DistCacheManager, EntityManager } from '@adactive/adsum-client-api';
+import { EntityManager } from '@adactive/adsum-client-api';
 import _ from 'lodash';
 
 class ClientAPI {
+
     constructor() {
         this.entityManager = null;
         this._allCategories = null;
         this._allPois = null;
     }
 
-    async init(config) {
+    async init(config, repositoryClasses, listenerClasses) {
         this.entityManager = new EntityManager(
-            Object.assign({}, config, { cacheManager: new DistCacheManager('/local') })
+            Object.assign({}, config, {}),
+            repositoryClasses,
+            listenerClasses
         );
     }
 
@@ -190,6 +193,7 @@ class ClientAPI {
         let medias = [];
 
         const playlist = this.getPlaylistByTag(tagName);
+
         if (playlist.length) {
             medias = this.entityManager.getRepository('Media').getList(playlist[0].medias.toJSON());
 
@@ -202,10 +206,23 @@ class ClientAPI {
     }
 
     getMediaFile(media) {
-        if (media.file && media.file.value) {
+        if (media && media.file && media.file.value) {
             media.file = this.getFile(media.file.value);
         }
         return media;
+    }
+
+    getMediaByTag(tagName: string) {
+        const tag = this.getTagBy({ name: tagName });
+        if (tag.length) {
+            const media = this.entityManager.getRepository('Media').findOneBy({
+                tags: tags => tags.has(tag[0])
+            });
+
+            return this.getMediaFile(media) || null;
+        }
+
+        return null;
     }
 
     getAllCategories(): Array<Object> {
