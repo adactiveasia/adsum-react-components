@@ -7,51 +7,7 @@ import { LabelTextObject } from '@adactive/adsum-web-map';
 import { MainActions, WayfindingActions, SelectionActions } from '@adactive/arc-map';
 import { WayFindingControlsActions } from '..';
 
-type MappedStatePropsType = {|
-    wayfindingState: *,
-    getPath: *,
-    wayFindingControlsState: object,
-|};
-
-type MappedDispatchPropsType = {|
-    resetMap: (animated: boolean) => void,
-    tmtt: (poi: *) => void,
-    destination: (poi: *) => void,
-    placeDestination: (poiPlace: *) => void,
-    arrivedLabel: (label: *) => void,
-    interchangeLabel: (label: *) => void,
-    resetInterchangeLabel: () => void,
-    resetArrivalLabel: () => void,
-    resetMapAndWayFinding: (
-        reset: ?boolean,
-        resetMap: ?boolean,
-        resetMapAnimatedOption: ?boolean,
-        resetWayfinding: ?boolean)
-    => void,
-    resetMap: (animated: boolean) => void,
-    onRemovePath: () => void,
-    resetSelection: () => void,
-|};
-
-type OwnPropsType = {|
-    // props needed when call this component
-    awm: *,
-    kioskPlace: object,
-    // optional props
-    destinationLabelText: string,
-    icLabelText: string,
-    arrivalLabelStyle: object,
-    interchangeLabelStyle: object,
-    reverseFloor: Boolean,
-    pmrNaming: Boolean,
-    customResetFunction: *,
-|};
-
-type PropsType = MappedStatePropsType & MappedDispatchPropsType & OwnPropsType;
-
-type StateType = {||}
-
-class WayFindingControls extends React.Component<PropsType, StateType> {
+class WayFindingControls extends React.Component {
     static defaultProps = {
         destinationLabelText: 'You reached ',
         icLabelText: 'Head ',
@@ -327,13 +283,13 @@ class WayFindingControls extends React.Component<PropsType, StateType> {
     }
 }
 
-const mapStateToProps = (state: AppStateType): MappedStatePropsType => ({
+const mapStateToProps = (state) => ({
     wayfindingState: state.map.wayfindingState,
     getPath: state.map.getPath,
     wayFindingControlsState: state.wayFindingControls,
 });
 
-const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
+const mapDispatchToProps = (dispatch) => ({
     tmtt: (poi) => {
         dispatch(WayFindingControlsActions.tmtt(poi));
     },
@@ -363,11 +319,11 @@ const mapDispatchToProps = (dispatch: *): MappedDispatchPropsType => ({
             resetWayfinding
         ));
     },
-    resetMap: (animated: boolean = false): void => dispatch(MainActions.resetAction(false, true, animated)),
-    onRemovePath: (): void => {
+    resetMap: (animated = false) => dispatch(MainActions.resetAction(false, true, animated)),
+    onRemovePath: () => {
         dispatch(WayfindingActions.willResetPathAction());
     },
-    resetSelection: (): void => {
+    resetSelection: () => {
         dispatch(SelectionActions.didResetSelectionAction());
     },
     wayfindingFinish: (value) => {

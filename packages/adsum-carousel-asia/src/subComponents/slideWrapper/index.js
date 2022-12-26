@@ -5,20 +5,8 @@ import type { Node } from 'react';
 
 import './slideWrapper.css';
 
-import type { ImageSlideType } from '../imageSlide';
-import type { VideoSlideType } from '../videoSlide';
-
-export type SlideType = ImageSlideType | VideoSlideType;
-
-type PropsType = {
-    parentStyle: {
-        width?: number,
-        height?: number
-    }
-};
-
-const SlideWrapper = (Slide: SlideType): Node => (
-    (props: PropsType): Node => {
+const SlideWrapper = (Slide)=> (
+    (props) => {
         const { parentStyle } = props;
         let styleObject = null;
 

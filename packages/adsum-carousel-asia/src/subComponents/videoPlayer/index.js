@@ -1,27 +1,11 @@
 // @flow
 
 import * as React from 'react';
-
 import { Player } from 'video-react';
-
 import './videoPlayer.css';
 
-type PropsType = {|
-    id: string | number,
-    sources: Array<{
-        src: string,
-        type: string
-    }>,
-    onPlayerInit: (player: Player, selector: string | number) => void,
-    onVideoEnded: () => void,
-    shouldReplayVideo: boolean
-|};
-type VideoPlayerStateType = {|
-    ended: boolean
-|};
-
-class VideoPlayer extends React.Component<PropsType> {
-    constructor(props: PropsType) {
+class VideoPlayer extends React.Component {
+    constructor(props) {
         super(props);
 
         this._selector = props.id;
@@ -49,7 +33,7 @@ class VideoPlayer extends React.Component<PropsType> {
         this._player.load();
     }
 
-    handleStateChange(state: VideoPlayerStateType) {
+    handleStateChange(state) {
         const { ended } = state;
         const { onVideoEnded, shouldReplayVideo } = this.props;
 
@@ -74,7 +58,7 @@ class VideoPlayer extends React.Component<PropsType> {
         return (
             <Player
                 id={this._selector}
-                ref={(player: Player) => {
+                ref={(player) => {
                     this._player = player;
                 }}
                 fluid

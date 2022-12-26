@@ -1,7 +1,4 @@
-// @flow
-
 import * as React from 'react';
-import type { Node } from 'react';
 import Carousel from 'nuka-carousel';
 
 import ImageSlide from './subComponents/imageSlide';
@@ -9,23 +6,7 @@ import VideoSlide from './subComponents/videoSlide';
 
 import './adsumCarousel.css';
 
-export type MediaType = {|
-    file: {|
-        uri: string,
-        file_type: string
-    |}
-|};
-
-type PropsType = {|
-    isOpen?: boolean,
-    medias?: Array<MediaType>,
-    onMediaTouch?: (MediaType) => void,
-    carouselOptions?: Object,
-    style?: CSSStyleDeclaration,
-    ButtonModalForImage?: ?HTMLButtonElement,
-|};
-
-class AdsumCarousel extends React.Component<PropsType> {
+class AdsumCarousel extends React.Component {
     static defaultProps = {
         isOpen: false,
         medias: [],
@@ -51,7 +32,7 @@ class AdsumCarousel extends React.Component<PropsType> {
         autoSlideInterval: 10000,
     };
 
-    constructor(props: PropsType) {
+    constructor(props) {
         super(props);
 
         this._videoPlayers = {};
@@ -86,7 +67,7 @@ class AdsumCarousel extends React.Component<PropsType> {
      * Bind video players if need it
      *
      */
-    onPlayerInit(videoPlayer: Player, id: number) {
+    onPlayerInit(videoPlayer, id) {
         this._videoPlayers[id] = videoPlayer;
     }
 
@@ -122,7 +103,7 @@ class AdsumCarousel extends React.Component<PropsType> {
      * To play video immediately if the media is a video on slide change
      * @param id
      */
-    slideDidChange(id: number | string) {
+    slideDidChange(id) {
         const { isOpen, autoSlideInterval, medias } = this.props;
 
         if (!isOpen) return;
@@ -151,14 +132,14 @@ class AdsumCarousel extends React.Component<PropsType> {
      * Create carousel slides content images or videos
      *
      */
-    generateSlides(): Array<Node> {
+    generateSlides() {
         const {
             medias, onMediaTouch, ButtonModalForImage, style,
         } = this.props;
 
         const parentStyle = style || null;
         const ret = [];
-        medias.forEach((media: MediaType, index: number) => {
+        medias.forEach((media, index) => {
             if (media.file.file_type === 'video/mp4' || media.file.file_type === 'video/x-m4v') {
                 const component = (
                     <div
@@ -211,7 +192,7 @@ class AdsumCarousel extends React.Component<PropsType> {
         return ret;
     }
 
-    render(): Node {
+    render() {
         const {
             isOpen, carouselOptions, style,
         } = this.props;
