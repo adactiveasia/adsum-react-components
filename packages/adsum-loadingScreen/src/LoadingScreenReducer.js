@@ -1,22 +1,12 @@
 // @flow
 
 import { types } from './LoadingScreenActions';
-import type { LoadingScreenActionsType } from './LoadingScreenActions';
-
-export type LoadingScreenReducerStateType = {|
-    percentage: ?number,
-|};
-
-export type LoadingScreenReducerType = (
-    state: LoadingScreenReducerStateType,
-    action: LoadingScreenActionsType
-) => LoadingScreenReducerStateType;
 
 export default function LoadingScreenReducer(
-    state: LoadingScreenReducerStateType = {
+    state = {
         percentage: 0,
     },
-    action: LoadingScreenActionsType,
+    action,
 ) {
     switch (action.type) {
     case types.SET_PERCENTAGE: {

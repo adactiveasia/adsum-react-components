@@ -45,7 +45,7 @@ class ClientAPI {
     getPois(ids) {
         let pois = this.entityManager.getRepository('Poi').getList(ids);
 
-        pois = pois.map((poi: Object): Object => {
+        pois = pois.map((poi) => {
             if (poi.logos && poi.logos.values) {
                 for (const logo in poi.logos.values) {
                     if (poi.logos.values[logo] && poi.logos.values[logo].value && !Number.isNaN(poi.logos.values[logo].value)) {
@@ -62,7 +62,7 @@ class ClientAPI {
     getPoisBy(filter) {
         let pois = this.entityManager.getRepository('Poi').findBy(filter);
 
-        pois = pois.map((poi: Object): Object => {
+        pois = pois.map((poi) => {
             if (poi.logos && poi.logos.values) {
                 for (const logo in poi.logos.values) {
                     if (poi.logos.values[logo] && poi.logos.values[logo].value && !Number.isNaN(poi.logos.values[logo].value)) {
@@ -92,7 +92,7 @@ class ClientAPI {
             });
         }
 
-        return pois.map((poi: Object): Object => {
+        return pois.map((poi) => {
             if (!poi.logo) poi.logo = (poi.logos && poi.logos.values && poi.logos.values[0] && poi.logos.values[0].value) ? this.getFile(poi.logos.values[0].value) : null;
             return poi;
         });
@@ -186,7 +186,7 @@ class ClientAPI {
         return medias;
     }
 
-    getMediasByPlaylistTag(tagName: string): Array<Object> {
+    getMediasByPlaylistTag(tagName) {
         let medias = [];
 
         const playlist = this.getPlaylistByTag(tagName);
@@ -208,7 +208,7 @@ class ClientAPI {
         return media;
     }
 
-    getMediaByTag(tagName: string) {
+    getMediaByTag(tagName) {
         const tag = this.getTagBy({ name: tagName });
 
         if (tag.length) {
@@ -222,7 +222,7 @@ class ClientAPI {
         return null;
     }
 
-    getAllCategories(): Array<Object> {
+    getAllCategories() {
         if (this._allCategories === null) {
             const categories = this.entityManager.getRepository('Category').getAll();
 
@@ -236,11 +236,11 @@ class ClientAPI {
         return this._allCategories;
     }
 
-    getAllPois(): Array<Object> {
+    getAllPois() {
         if (this._allPois === null) {
             const pois = this.entityManager.getRepository('Poi').getAll();
 
-            this._allPois = pois.map((poi: Object): Object => {
+            this._allPois = pois.map((poi) => {
                 if (poi.logos && poi.logos.values) {
                     for (const logo in poi.logos.values) {
                         if (poi.logos.values[logo] && poi.logos.values[logo].value && !Number.isNaN(poi.logos.values[logo].value)) {

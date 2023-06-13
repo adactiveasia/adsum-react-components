@@ -1,34 +1,8 @@
-// @flow
-
 import * as React from 'react';
 import { connect } from 'react-redux';
-
-import type { Element } from 'react';
-import type { LoadingScreenReducerStateType } from './LoadingScreenReducer';
-
 import './LoadingScreen.css';
 
-type AppStateType = {|
-    loadingScreen: LoadingScreenReducerStateType,
-|};
-
-type MappedStatePropsType = {|
-    percentage: ?number,
-|};
-type OwnPropsType = {|
-    open?: boolean,
-    hideLogo?: boolean,
-    hidePercentage?: boolean,
-    hideBar?: boolean,
-    transition?: ?string,
-    minPercentage?: ?number,
-    mainColor?: string,
-    barColor?: string,
-    logo?: Object | string,
-|};
-type PropsType = MappedStatePropsType & OwnPropsType;
-
-class LoadingScreen extends React.Component<PropsType> {
+class LoadingScreen {
     static defaultProps = {
         open: true,
         hideLogo: false,
@@ -116,7 +90,7 @@ class LoadingScreen extends React.Component<PropsType> {
     }
 
     // ------------------------------------------ Render -------------------------------------------
-    render(): Element<'div'> {
+    render() {
         const { mainColor } = this.props;
 
         const loadingScreenStyle = {
@@ -133,7 +107,7 @@ class LoadingScreen extends React.Component<PropsType> {
     }
 }
 
-const mapStateToProps = (state: AppStateType): MappedStatePropsType => ({
+const mapStateToProps = (state) => ({
     percentage: state.loadingScreen.percentage,
 });
 
